@@ -17,8 +17,13 @@ namespace theme_me_up
         const string normalAndSketchyRandom = "https://wallhaven.cc/search?purity=110&sorting=random";
         const string sfwRandom = "https://wallhaven.cc/search?purity=100&sorting=random";
 
+        [DllImport("User32", CharSet = CharSet.Auto)]
+        public static extern int SystemParametersInfo(int uiAction, int uiParam, string pvParam, uint fWinIni);
+
         static void Main(string[] args)
         {
+            //SystemParametersInfo(0x0014, 0, "Image.jpg", 0x0001);
+
             var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
@@ -137,15 +142,6 @@ namespace theme_me_up
             process.WaitForExit();
         }
 
-        private static void SetWallpaperWindows(string file)
-        {
-            using var process = Process.Start(
-            new ProcessStartInfo
-            {
-                FileName = "powershell",
-                ArgumentList = { "-command", $"set-itemproperty -path 'HKCU:Control Panel\\Desktop' -name wallpaper -value {file}" }
-            });
-            process.WaitForExit();
-        }
+        private static void SetWallpaperWindows(string file) => SystemParametersInfo(0x0014, 0, file, 0x0001);
     }
 }
