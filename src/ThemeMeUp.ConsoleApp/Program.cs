@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Runtime.InteropServices;
 
-namespace theme_me_up
+namespace ThemeMeUp.ConsoleApp
 {
     class Program
     {
