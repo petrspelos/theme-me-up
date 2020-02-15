@@ -23,6 +23,9 @@ namespace theme_me_up
         static void Main(string[] args)
         {
             var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var wallhavenCacheDir = Path.Combine(picturesDir, "wallhaven");
+
+            Directory.CreateDirectory(wallhavenCacheDir);
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
                 Console.WriteLine("Theme Me Up");
@@ -92,13 +95,16 @@ namespace theme_me_up
                 return;
             }
 
-            var file = Path.Combine(picturesDir, "randomWallpaper" + Path.GetExtension(url));
-            DownloadImage(url, file);
+            var wallpaperFileName = Path.GetFileName(url);
+            var wallpaperFilePath = Path.Combine(wallhavenCacheDir, wallpaperFileName);
+
+            if(!File.Exists(wallpaperFilePath))
+                DownloadImage(url, wallpaperFilePath);
 
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                SetWallpaperGnome(file);
+                SetWallpaperGnome(wallpaperFilePath);
             } else if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                SetWallpaperWindows(file);
+                SetWallpaperWindows(wallpaperFilePath);
             } else {
                 Console.WriteLine("Sorry, ThemeMeUp doesn't know how to set the wallpaper on your OS.");
                 Console.WriteLine("However, we downloaded the wallpaper to your Pictures directory. =)");
