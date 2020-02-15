@@ -18,6 +18,8 @@ namespace theme_me_up
 
         static void Main(string[] args)
         {
+            var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
                 Console.WriteLine("Theme Me Up");
                 Console.WriteLine("Random wallpaper utility using wallhaven.cc");
@@ -86,7 +88,7 @@ namespace theme_me_up
                 return;
             }
 
-            var file = "/home/user/Pictures/randomWallpaper" + Path.GetExtension(url);
+            var file = Path.Combine(picturesDir, "randomWallpaper" + Path.GetExtension(url));
             DownloadImage(url, file);
             SetWallpaper(file);
         }
