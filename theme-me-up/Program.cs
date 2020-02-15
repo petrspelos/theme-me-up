@@ -22,8 +22,6 @@ namespace theme_me_up
 
         static void Main(string[] args)
         {
-            //SystemParametersInfo(0x0014, 0, "Image.jpg", 0x0001);
-
             var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {

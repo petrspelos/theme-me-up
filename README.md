@@ -22,12 +22,12 @@ An Elementary OS command line utility to set a random wallpaper from [wallhaven.
 | `-a` or `--anime`  | Picks only anime wallpapers. |
 | `-g` or `--general` | No anime, no people. |
 | `-w` or `--wide` | Picks only 16x9 wallpapers. |
-| `-search=[SEARCH TERM]` | Searches for a specified term. |
+| `--search=[SEARCH TERM]` | Searches for a specified term. |
 
 ### Examples
 
 ```bash
-theme-me-up --nsfw --wide -search=overwatch
+theme-me-up --nsfw --wide --search=overwatch
 ```
 
 > Sets a random sketchy overwatch wallpaper with the 16x9 aspect ratio
@@ -35,7 +35,7 @@ theme-me-up --nsfw --wide -search=overwatch
 ---
 
 ```bash
-theme-me-up --general -search=id:338
+theme-me-up --general --search=id:338
 ```
 
 > Sets a random non-sketchy wallpaper with the `night` tag see [wallhaven.cc/tags](https://wallhaven.cc/tags) for tag IDs.
