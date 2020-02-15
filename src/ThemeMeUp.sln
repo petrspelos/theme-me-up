@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.ConsoleApp", "ThemeMeUp.ConsoleApp\ThemeMeUp.ConsoleApp.csproj", "{11E0DF36-B63D-4580-B77D-C2509978D7FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.Tests", "ThemeMeUp.Tests\ThemeMeUp.Tests.csproj", "{372133DA-F0F5-437C-8AA7-2691633B5CCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{11E0DF36-B63D-4580-B77D-C2509978D7FA}.Release|x64.Build.0 = Release|Any CPU
 		{11E0DF36-B63D-4580-B77D-C2509978D7FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{11E0DF36-B63D-4580-B77D-C2509978D7FA}.Release|x86.Build.0 = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|x64.Build.0 = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Debug|x86.Build.0 = Debug|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|x64.ActiveCfg = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|x64.Build.0 = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|x86.ActiveCfg = Release|Any CPU
+		{372133DA-F0F5-437C-8AA7-2691633B5CCE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
