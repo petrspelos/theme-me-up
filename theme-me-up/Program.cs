@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Runtime.InteropServices;
 
 namespace theme_me_up
 {
@@ -90,7 +91,15 @@ namespace theme_me_up
 
             var file = Path.Combine(picturesDir, "randomWallpaper" + Path.GetExtension(url));
             DownloadImage(url, file);
-            SetWallpaper(file);
+
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                SetWallpaperGnome(file);
+            } else if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                SetWallpaperWindows(file);
+            } else {
+                Console.WriteLine("Sorry, ThemeMeUp doesn't know how to set the wallpaper on your OS.");
+                Console.WriteLine("However, we downloaded the wallpaper to your Pictures directory. =)");
+            }
         }
 
         private static string FetchRandomWallpaper(string baseUrl)
@@ -117,13 +126,24 @@ namespace theme_me_up
             }
         }
 
-        private static void SetWallpaper(string file)
+        private static void SetWallpaperGnome(string file)
         {
             using var process = Process.Start(
             new ProcessStartInfo
             {
                 FileName = "gsettings",
                 ArgumentList = { "set", "org.gnome.desktop.background", "picture-uri", file }
+            });
+            process.WaitForExit();
+        }
+
+        private static void SetWallpaperWindows(string file)
+        {
+            using var process = Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = "powershell",
+                ArgumentList = { "-command", $"set-itemproperty -path 'HKCU:Control Panel\\Desktop' -name wallpaper -value {file}" }
             });
             process.WaitForExit();
         }
