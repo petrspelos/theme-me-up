@@ -1,8 +1,10 @@
 ![Banner](docs/banner.png)
 
-An Elementary OS command line utility to set a random wallpaper from [wallhaven.cc](https://wallhaven.cc).
+A command line utility to set a random wallpaper from [wallhaven.cc](https://wallhaven.cc).
 
-![Gif example](https://s5.gifyu.com/images/ezgif-1-a7d30ac4ef7d.gif)
+⚠️ works for **Linux with GNOME** and **Windows 10**
+
+![Gif example](https://i.imgur.com/bN6hkAn.gif)
 
 ## Options
 
@@ -50,4 +52,5 @@ Things to improve:
 
 - Support all options wallhaven offers for filtering
 - Maybe allow for caching of results
-- Support other systems, currently made just for my Elementary OS (will probably run on Ubuntu).
+- ~~Support other systems, currently made just for my Elementary OS (will probably run on Ubuntu).`~~
+    - Supports Linux with Gnome, and Windows. Add support for other wallpaper options in Linux (eg. feh).
