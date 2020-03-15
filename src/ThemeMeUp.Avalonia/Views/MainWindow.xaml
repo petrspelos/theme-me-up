@@ -14,7 +14,14 @@
 
     <StackPanel>
         <Button Width="160" Command="{Binding OnGetWallpapers}">Get latest wallpapers</Button>
-        <Image Source="{Binding FirstWallpaper}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Height="700"></Image>
+        
+        <ListBox Items="{Binding Wallpapers}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ThumbnailBitmap}" HorizontalAlignment="Center"></Image>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 
 </Window>

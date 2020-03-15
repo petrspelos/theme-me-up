@@ -15,6 +15,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+mock-response.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
