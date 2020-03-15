@@ -7,6 +7,14 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Runtime.InteropServices;
+using Lamar;
+using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Infrastructure;
+using ThemeMeUp.Core.UseCases;
+using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
+using System.Threading.Tasks;
+using ThemeMeUp.ApiWrapper;
+using ThemeMeUp.Core.Boundaries;
 
 namespace ThemeMeUp.ConsoleApp
 {
@@ -20,8 +28,26 @@ namespace ThemeMeUp.ConsoleApp
         [DllImport("User32", CharSet = CharSet.Auto)]
         public static extern int SystemParametersInfo(int uiAction, int uiParam, string pvParam, uint fWinIni);
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            var container = new Container(c =>
+            {
+                c.For<HttpClient>().UseIfNone<HttpClient>();
+                c.For<INetwork>().UseIfNone<Network>();
+                c.For<IWallhavenClient>().UseIfNone<WallhavenClient>();
+                c.For<IWallpaperProvider>().UseIfNone<WallpaperProvider>();
+                c.For<IGetLatestWallpapersUseCase>().Use<GetLatestWallpapersUseCase>();
+                c.For<IGetLatestWallpapersOutputPort>().UseIfNone<LatestWallpapersPresenter>();
+            });
+
+            var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
+
+            await useCase.Execute(new GetLatestWallpapersInput());
+            
+            Console.WriteLine("Press any key to exit...");
+            _ = Console.ReadKey();
+
+            return;
             var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var wallhavenCacheDir = Path.Combine(picturesDir, "wallhaven");
 

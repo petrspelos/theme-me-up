@@ -7,4 +7,14 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Lamar" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThemeMeUp.Core\ThemeMeUp.Core.csproj" />
+    <ProjectReference Include="..\ThemeMeUp.Infrastructure\ThemeMeUp.Infrastructure.csproj" />
+    <ProjectReference Include="..\ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj" />
+  </ItemGroup>
+
 </Project>

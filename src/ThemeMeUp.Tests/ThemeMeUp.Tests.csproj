@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
@@ -15,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ThemeMeUp.ConsoleApp\ThemeMeUp.ConsoleApp.csproj" />
+    <ProjectReference Include="..\ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj" />
+    <ProjectReference Include="..\ThemeMeUp.Core\ThemeMeUp.Core.csproj" />
   </ItemGroup>
 
 </Project>
