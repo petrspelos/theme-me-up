@@ -33,6 +33,13 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
             }
         }
 
-        public string ToQueryParameter() => $"purity={SFW.ToBinaryString()}{Sketchy.ToBinaryString()}{NSFW.ToBinaryString()}";
+        public string ToQueryParameter()
+        {
+            if(IsDefault()) { return "purity=100"; }
+
+            return $"purity={SFW.ToBinaryString()}{Sketchy.ToBinaryString()}{NSFW.ToBinaryString()}";
+        }
+
+        private bool IsDefault() => !SFW && !Sketchy && !NSFW;
     }
 }

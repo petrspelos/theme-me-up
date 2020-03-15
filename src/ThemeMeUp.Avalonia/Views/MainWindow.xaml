@@ -13,16 +13,41 @@
     </Design.DataContext>
 
     <StackPanel>
-        <TextBox Watermark="Search term..." Text="{Binding SearchTerm, Mode=TwoWay}" />
-        <Button Width="160" Command="{Binding OnGetWallpapers}">Fetch wallpapers</Button>
-        
-        <ListBox Items="{Binding Wallpapers}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding ThumbnailBitmap}" HorizontalAlignment="Center"></Image>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Image Source="/Assets/banner.png" Height="100" Margin="20" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Grid.Row="0" Background="#e1e1e1">
+                <TextBlock HorizontalAlignment="Center" Margin="10">Filter</TextBlock>
+                <TextBox Watermark="Search term..." Text="{Binding SearchTerm, Mode=TwoWay}" Margin="10 0" />
+                <TextBlock HorizontalAlignment="Center" Margin="10">Purity Settings</TextBlock>
+                <CheckBox IsChecked="{Binding IncludeSfw}" Margin="10 10 0 0">Include SFW</CheckBox>
+                <CheckBox IsChecked="{Binding IncludeSketchy}" Margin="10 10 0 0">Include Sketchy</CheckBox>
+                <CheckBox IsChecked="{Binding IncludeNsfw}" Margin="10 10 0 0">Include NSFW</CheckBox>
+                <TextBlock HorizontalAlignment="Center" Margin="10">Categories</TextBlock>
+                <CheckBox Margin="10 10 0 0" IsChecked="True">General</CheckBox>
+                <CheckBox Margin="10 10 0 0" IsChecked="True">Anime</CheckBox>
+                <CheckBox Margin="10 10 0 0" IsChecked="True">People</CheckBox>
+                <Button Command="{Binding OnGetWallpapers}" Margin="10" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <TextBlock HorizontalAlignment="Center" Margin="10">Search Results</TextBlock>
+                <ListBox Items="{Binding Wallpapers}" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ThumbnailBitmap}" HorizontalAlignment="Center"></Image>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
     </StackPanel>
 
 </Window>

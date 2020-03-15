@@ -24,5 +24,12 @@ namespace ThemeMeUp.Avalonia
         {
             noApiKey = true;
         }
+
+        public void Clear()
+        {
+            noConnection = false;
+            noApiKey = false;
+            wallpapers = new Wallpaper[0];
+        }
     }
 }

@@ -25,6 +25,8 @@ namespace ThemeMeUp.Core.UseCases
             {
                 var wallpapers = await _wallpaperProvider.GetLatestAsync(new SearchOptions
                 {
+                    Sfw = input.Sfw,
+                    Sketchy = input.Sketchy,
                     Nsfw = input.Nsfw,
                     SearchTerm = input.SearchTerm
                 });

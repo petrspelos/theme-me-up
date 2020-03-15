@@ -33,6 +33,13 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
             }
         }
 
-        public string ToQueryParameter() => $"categories={General.ToBinaryString()}{Anime.ToBinaryString()}{People.ToBinaryString()}";
+        public string ToQueryParameter()
+        {
+            if(IsDefault()) { return "categories=111"; }
+
+            return $"categories={General.ToBinaryString()}{Anime.ToBinaryString()}{People.ToBinaryString()}";
+        }
+
+        private bool IsDefault() => !General && !Anime && !People;
     }
 }
