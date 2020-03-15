@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.Entities.Exceptions;
 
 namespace ThemeMeUp.Core.UseCases
@@ -22,12 +23,20 @@ namespace ThemeMeUp.Core.UseCases
         {
             try
             {
-                var wallpapers = await _wallpaperProvider.GetLatestAsync();
+                var wallpapers = await _wallpaperProvider.GetLatestAsync(new SearchOptions
+                {
+                    Nsfw = input.Nsfw,
+                    SearchTerm = input.SearchTerm
+                });
                 _output.Default(wallpapers);
             }
             catch (NoConnectionException)
             {
                 _output.NoConnection();
+            }
+            catch (UnauthenticatedException)
+            {
+                _output.Unauthenticated();
             }
         }
     }

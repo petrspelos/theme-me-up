@@ -14,24 +14,24 @@ namespace ThemeMeUp.Avalonia.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IGetLatestWallpapersUseCase _useCase;
-        private readonly IGetLatestWallpapersOutputPort _output;
+        private readonly LatestWallpapersPresenter _output;
         private readonly UrlImageConverter _imgConverter;
-        private Bitmap _firstWallpaper;
+        private string _searchTerm;
         private IEnumerable<WallpaperModel> _wallpapers;
 
         public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter)
         {
             _useCase = useCase;
-            _output = output;
+            _output = (LatestWallpapersPresenter)output;
             _imgConverter = imgConverter;
         }
 
         public string Greeting => "Hello World!";
 
-        public Bitmap FirstWallpaper
+        public string SearchTerm
         {
-            get => _firstWallpaper;
-            set => _ = this.RaiseAndSetIfChanged(ref _firstWallpaper, value);
+            get => _searchTerm;
+            set => _ = this.RaiseAndSetIfChanged(ref _searchTerm, value);
         }
 
         public IEnumerable<WallpaperModel> Wallpapers
@@ -42,17 +42,20 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
         public async void OnGetWallpapers()
         {
-            await _useCase.Execute(new GetLatestWallpapersInput());
+            if(_output.noApiKey || _output.noConnection)
+            {
+                // TODO: Create an error popup
+                return;
+            }
 
-            // foreach(var wallpaperUrl in ((LatestWallpapersPresenter)_output)._wallpapers.Select(w => w.SmallThumbnailUrl))
-            // {
-            //     FirstWallpaper = await _imgConverter.UrlToBitmapAsync(wallpaperUrl);
-            //     await Task.Delay(TimeSpan.FromSeconds(2));
-            // }
+            await _useCase.Execute(new GetLatestWallpapersInput
+            {
+                SearchTerm = SearchTerm
+            });
 
             var result = new List<WallpaperModel>();
 
-            foreach(var wallpaper in ((LatestWallpapersPresenter)_output)._wallpapers)
+            foreach(var wallpaper in _output.wallpapers)
             {
                 result.Add(await ToModel(wallpaper));
             }

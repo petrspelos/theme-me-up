@@ -6,17 +6,23 @@ namespace ThemeMeUp.Avalonia
 {
     public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
-        public bool _noConnection = false;
-        public IEnumerable<Wallpaper> _wallpapers;
+        public bool noConnection = false;
+        public bool noApiKey = false;
+        public IEnumerable<Wallpaper> wallpapers;
 
         public void Default(IEnumerable<Wallpaper> wallpapers)
         {
-            _wallpapers = wallpapers;
+            this.wallpapers = wallpapers;
         }
 
         public void NoConnection()
         {
-            _noConnection = true;
+            noConnection = true;
+        }
+
+        public void Unauthenticated()
+        {
+            noApiKey = true;
         }
     }
 }

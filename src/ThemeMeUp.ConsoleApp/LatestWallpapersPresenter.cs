@@ -21,5 +21,10 @@ namespace ThemeMeUp.ConsoleApp
         {
             Console.WriteLine("Internet connection is needed to fetch the latest wallpapers.");
         }
+
+        public void Unauthenticated()
+        {
+            Console.WriteLine("An API key is required to get NSFW wallpapers.");
+        }
     }
 }

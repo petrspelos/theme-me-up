@@ -38,11 +38,15 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<IWallpaperProvider>().UseIfNone<WallpaperProvider>();
                 c.For<IGetLatestWallpapersUseCase>().Use<GetLatestWallpapersUseCase>();
                 c.For<IGetLatestWallpapersOutputPort>().UseIfNone<LatestWallpapersPresenter>();
+                c.For<IAuthentication>().UseIfNone<EnvironmentAuthentication>();
             });
 
             var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
 
-            await useCase.Execute(new GetLatestWallpapersInput());
+            await useCase.Execute(new GetLatestWallpapersInput
+            {
+                Nsfw = true
+            });
             
             Console.WriteLine("Press any key to exit...");
             _ = Console.ReadKey();

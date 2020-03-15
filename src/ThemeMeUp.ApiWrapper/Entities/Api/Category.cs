@@ -2,9 +2,11 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
 {
     public class Category
     {
-        public bool General { get; private set; }
-        public bool Anime { get; private set; }
-        public bool People { get; private set; }
+        public bool General { get; set; }
+        public bool Anime { get; set; }
+        public bool People { get; set; }
+
+        public Category() { }
 
         public Category(byte raw)
         {
@@ -30,5 +32,7 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
                 People = true;
             }
         }
+
+        public string ToQueryParameter() => $"categories={General.ToBinaryString()}{Anime.ToBinaryString()}{People.ToBinaryString()}";
     }
 }

@@ -13,7 +13,8 @@
     </Design.DataContext>
 
     <StackPanel>
-        <Button Width="160" Command="{Binding OnGetWallpapers}">Get latest wallpapers</Button>
+        <TextBox Watermark="Search term..." Text="{Binding SearchTerm, Mode=TwoWay}" />
+        <Button Width="160" Command="{Binding OnGetWallpapers}">Fetch wallpapers</Button>
         
         <ListBox Items="{Binding Wallpapers}">
             <ListBox.ItemTemplate>

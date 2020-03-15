@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Moq;
 using ThemeMeUp.ApiWrapper;
 using ThemeMeUp.ApiWrapper.Entities.Api;
+using ThemeMeUp.ApiWrapper.Entities.Requests;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
-using ThemeMeUp.Core.Boundaries.Infrastructure;
 using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.UseCases;
 using Xunit;
@@ -50,6 +50,23 @@ namespace ThemeMeUp.Tests
 
             AssertSimpleDefaultOutput();
             AssertNoOtherOutput();
+        }
+
+        [Fact]
+        public async Task UnauthenticatedNSFW_ShouldOutputUnauthorized()
+        {
+            await _useCase.Execute(new GetLatestWallpapersInput
+            {
+                Nsfw = true
+            });
+
+            AssertUnauthenticatedOutput();
+            AssertNoOtherOutput();
+        }
+
+        private void AssertUnauthenticatedOutput()
+        {
+            _output.Verify(o => o.Unauthenticated(), Times.Once());
         }
 
         private void AssertSimpleDefaultOutput()
@@ -94,7 +111,7 @@ namespace ThemeMeUp.Tests
                 }
             };
 
-            _clientMock.Setup(c => c.GetLatestWallpapersAsync()).Returns(Task.FromResult(wallpapers));
+            _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>())).Returns(Task.FromResult(wallpapers));
         }
 
         private void AssertNoOtherOutput() => _output.VerifyNoOtherCalls();
@@ -103,6 +120,6 @@ namespace ThemeMeUp.Tests
             => _output.Verify(o => o.NoConnection(), Times.Once());
 
         private void SetNoConnection()
-            => _clientMock.Setup(c => c.GetLatestWallpapersAsync()).Throws<HttpRequestException>();
+            => _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>())).Throws<HttpRequestException>();
     }
 }

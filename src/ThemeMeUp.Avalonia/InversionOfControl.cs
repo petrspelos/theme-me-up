@@ -29,12 +29,13 @@ namespace ThemeMeUp.Avalonia
             => _provider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
                 .AddSingleton<UrlImageConverter>()
-                //.AddSingleton<INetwork, Network>()
-                .AddSingleton<INetwork, MockNetwork>()
+                .AddSingleton<INetwork, Network>()
+                //.AddSingleton<INetwork, MockNetwork>()
                 .AddSingleton<IWallhavenClient, WallhavenClient>()
                 .AddSingleton<IWallpaperProvider, WallpaperProvider>()
                 .AddSingleton<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>()
                 .AddSingleton<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>()
+                .AddSingleton<IAuthentication, EnvironmentAuthentication>()
                 .BuildServiceProvider();
     }
 }

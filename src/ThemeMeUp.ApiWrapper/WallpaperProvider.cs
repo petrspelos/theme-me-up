@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ThemeMeUp.ApiWrapper.Entities.Api;
+using ThemeMeUp.ApiWrapper.Entities.Requests;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.Entities.Exceptions;
@@ -18,11 +19,18 @@ namespace ThemeMeUp.ApiWrapper
             _client = client;
         }
 
-        public async Task<IEnumerable<Wallpaper>> GetLatestAsync()
+        public async Task<IEnumerable<Wallpaper>> GetLatestAsync(SearchOptions options)
         {
+            if(options.Nsfw && !_client.IsAuthenticated())
+            {
+                throw new UnauthenticatedException();
+            }
+
+            var queryOptions = new QueryOptions(options);
+
             try
             {
-                return (await _client.GetLatestWallpapersAsync()).Select(ToWallpaper);
+                return (await _client.GetLatestWallpapersAsync(queryOptions)).Select(ToWallpaper);
             }
             catch (HttpRequestException)
             {

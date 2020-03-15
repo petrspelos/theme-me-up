@@ -20,5 +20,7 @@ namespace ThemeMeUp.Infrastructure
         {
             return Task.FromResult(File.ReadAllText("mock-response.json"));
         }
+
+        public Task<string> GetStringWithApiKeyAsync(string url, string apiKey) => GetStringAsync(url);
     }
 }

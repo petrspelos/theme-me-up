@@ -8,5 +8,6 @@ namespace ThemeMeUp.Core.Boundaries.GetLatestWallpapers
     {
         void NoConnection();
         void Default(IEnumerable<Wallpaper> wallpapers);
+        void Unauthenticated();
     }
 }

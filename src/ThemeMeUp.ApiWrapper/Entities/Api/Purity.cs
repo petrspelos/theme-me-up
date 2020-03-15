@@ -2,9 +2,11 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
 {
     public class Purity
     {
-        public bool SFW { get; private set; }
-        public bool Sketchy { get; private set; }
-        public bool NSFW { get; private set; }
+        public bool SFW { get; set; }
+        public bool Sketchy { get; set; }
+        public bool NSFW { get; set; }
+
+        public Purity() { }
 
         public Purity(byte raw)
         {
@@ -30,5 +32,7 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
                 NSFW = true;
             }
         }
+
+        public string ToQueryParameter() => $"purity={SFW.ToBinaryString()}{Sketchy.ToBinaryString()}{NSFW.ToBinaryString()}";
     }
 }
