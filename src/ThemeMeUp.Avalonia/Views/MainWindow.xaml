@@ -25,20 +25,28 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.Row="0" Background="#e1e1e1">
-                <TextBlock HorizontalAlignment="Center" Margin="10">Filter</TextBlock>
-                <TextBox Watermark="Search term..." Text="{Binding SearchTerm, Mode=TwoWay}" Margin="10 0" />
-                <TextBlock HorizontalAlignment="Center" Margin="10">Purity Settings</TextBlock>
-                <CheckBox IsChecked="{Binding IncludeSfw}" Margin="10 10 0 0">Include SFW</CheckBox>
-                <CheckBox IsChecked="{Binding IncludeSketchy}" Margin="10 10 0 0">Include Sketchy</CheckBox>
-                <CheckBox IsChecked="{Binding IncludeNsfw}" Margin="10 10 0 0">Include NSFW</CheckBox>
-                <TextBlock HorizontalAlignment="Center" Margin="10">Categories</TextBlock>
-                <CheckBox Margin="10 10 0 0" IsChecked="True">General</CheckBox>
-                <CheckBox Margin="10 10 0 0" IsChecked="True">Anime</CheckBox>
-                <CheckBox Margin="10 10 0 0" IsChecked="True">People</CheckBox>
-                <Button Command="{Binding OnGetWallpapers}" Margin="10" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
-                <Button Command="{Binding SetSelectedWallpaper}" Margin="10">Set selected wallpaper</Button>
-            </StackPanel>
+            <Grid Grid.Column="0" Grid.Row="0" Background="#e1e1e1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <TextBlock HorizontalAlignment="Center" Margin="10">Search</TextBlock>
+                    <TextBox Watermark="Search term..." Text="{Binding SearchTerm, Mode=TwoWay}" Margin="10 0" />
+                    <TextBlock FontWeight="Bold" Margin="10 20 10 0">Purity Settings</TextBlock>
+                    <CheckBox IsChecked="{Binding IncludeSfw}" Margin="10 10 0 0">Include SFW</CheckBox>
+                    <CheckBox IsChecked="{Binding IncludeSketchy}" Margin="10 10 0 0">Include Sketchy</CheckBox>
+                    <CheckBox IsChecked="{Binding IncludeNsfw}" Margin="10 10 0 0">Include NSFW</CheckBox>
+                    <TextBlock FontWeight="Bold" Margin="10 20 10 0">Categories</TextBlock>
+                    <CheckBox Margin="10 10 0 0" IsChecked="True">General</CheckBox>
+                    <CheckBox Margin="10 10 0 0" IsChecked="True">Anime</CheckBox>
+                    <CheckBox Margin="10 10 0 0" IsChecked="True">People</CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <Button Command="{Binding OnGetWallpapers}" Margin="10 10 10 5" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
+                    <Button Command="{Binding SetSelectedWallpaper}" Margin="10 0 10 10">Set selected wallpaper</Button>
+                </StackPanel>
+            </Grid>
             <ScrollViewer Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Disabled">
                 <ListBox Items="{Binding Wallpapers}" SelectedItem="{Binding SelectedWallpaper}" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemsPanel>
