@@ -6,15 +6,21 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ThemeMeUp.Avalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="ThemeMeUp.Avalonia">
+        Title="ThemeMeUp"
+        MinWidth="875"
+        MinHeight="560">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <StackPanel>
-        <Image Source="/Assets/banner.png" Height="100" Margin="20" />
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="0" Source="/Assets/banner.png" Height="100" Margin="20" />
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
@@ -31,10 +37,9 @@
                 <CheckBox Margin="10 10 0 0" IsChecked="True">Anime</CheckBox>
                 <CheckBox Margin="10 10 0 0" IsChecked="True">People</CheckBox>
                 <Button Command="{Binding OnGetWallpapers}" Margin="10" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="0">
                 <Button Command="{Binding SetSelectedWallpaper}" Margin="10">Set selected wallpaper</Button>
-                <TextBlock HorizontalAlignment="Center" Margin="10">Search Results</TextBlock>
+            </StackPanel>
+            <ScrollViewer Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Disabled">
                 <ListBox Items="{Binding Wallpapers}" SelectedItem="{Binding SelectedWallpaper}" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -47,8 +52,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>
+            </ScrollViewer>
         </Grid>
-    </StackPanel>
+    </Grid>
 
 </Window>
