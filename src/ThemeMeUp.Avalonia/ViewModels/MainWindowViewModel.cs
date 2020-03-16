@@ -96,7 +96,6 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
             if(_output.noApiKey || _output.noConnection)
             {
-                // TODO: Create an error popup
                 FetchButtonEnabled = true;
                 return;
             }
