@@ -6,7 +6,7 @@ A command line + GUI utility to set wallpapers from [wallhaven.cc](https://wallh
 
 ## >> An API key is only required for NSFW wallpapers <<
 
-![Avalonia UI](docs/avalonia-screen.png)
+![Avalonia UI](docs/avalnoia-screen.png)
 
 ## Command Line Options
 
