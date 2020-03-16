@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ThemeMeUp.ConsoleApp.Utilities;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 
@@ -7,14 +9,22 @@ namespace ThemeMeUp.ConsoleApp
 {
     public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
-        public void Default(IEnumerable<Wallpaper> wallpapers)
-        {
-            Console.WriteLine("LATEST WALLPAPERS:");
+        private readonly WallpaperSetter _setter;
 
-            foreach(var wallpaper in wallpapers)
+        public LatestWallpapersPresenter(WallpaperSetter setter)
+        {
+            _setter = setter;
+        }
+
+        public async void Default(IEnumerable<Wallpaper> wallpapers)
+        {
+            if(!wallpapers.Any())
             {
-                Console.WriteLine(wallpaper.FullImageUrl);
+                Console.WriteLine("There are no wallpapers for your search.");
+                return;
             }
+
+            await _setter.SetFromUrlAsync(wallpapers.First().FullImageUrl);
         }
 
         public void NoConnection()

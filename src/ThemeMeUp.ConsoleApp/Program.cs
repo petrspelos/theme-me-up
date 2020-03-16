@@ -15,19 +15,12 @@ using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using System.Threading.Tasks;
 using ThemeMeUp.ApiWrapper;
 using ThemeMeUp.Core.Boundaries;
+using ThemeMeUp.ConsoleApp.Utilities;
 
 namespace ThemeMeUp.ConsoleApp
 {
     class Program
     {
-        private static readonly HttpClient _client = new HttpClient();
-        const string sketchyRandom = "https://wallhaven.cc/search?purity=010&sorting=random";
-        const string normalAndSketchyRandom = "https://wallhaven.cc/search?purity=110&sorting=random";
-        const string sfwRandom = "https://wallhaven.cc/search?purity=100&sorting=random";
-
-        [DllImport("User32", CharSet = CharSet.Auto)]
-        public static extern int SystemParametersInfo(int uiAction, int uiParam, string pvParam, uint fWinIni);
-
         static async Task Main(string[] args)
         {
             var container = new Container(c =>
@@ -39,143 +32,87 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<IGetLatestWallpapersUseCase>().Use<GetLatestWallpapersUseCase>();
                 c.For<IGetLatestWallpapersOutputPort>().UseIfNone<LatestWallpapersPresenter>();
                 c.For<IAuthentication>().UseIfNone<EnvironmentAuthentication>();
+                c.For<WallpaperSetter>().UseIfNone<WallpaperSetter>();
             });
 
-            var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
+            // var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
 
-            await useCase.Execute(new GetLatestWallpapersInput
-            {
-                Nsfw = true
-            });
+            // await useCase.Execute(new GetLatestWallpapersInput
+            // {
+            //     Nsfw = true
+            // });
             
-            Console.WriteLine("Press any key to exit...");
-            _ = Console.ReadKey();
-
-            return;
-            var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var wallhavenCacheDir = Path.Combine(picturesDir, "wallhaven");
-
-            Directory.CreateDirectory(wallhavenCacheDir);
+            // Console.WriteLine("Press any key to exit...");
+            // _ = Console.ReadKey();
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
                 Console.WriteLine("Theme Me Up");
-                Console.WriteLine("Random wallpaper utility using wallhaven.cc");
-                Console.WriteLine("");
-                Console.WriteLine("OPTIONS");
-                Console.WriteLine("SKETCHY-NESS");
-                Console.WriteLine("-n | --nsfw   Picks a random sketchy wallpaper.");
-                Console.WriteLine("-m | --mixed  Picks a random sketchy or normal wallpaper.");
-                Console.WriteLine("Without any of the options, the default always picks a non-sketchy wallpaper");
-                Console.WriteLine("");
-                Console.WriteLine("CONTENT");
-                Console.WriteLine("-a | --anime           Picks only anime wallpapers.");
-                Console.WriteLine("-g | --general         No anime, no people.");
-                Console.WriteLine("-w | --wide            Picks only 16x9 wallpapers.");
-                Console.WriteLine("--search=[SEARCH TERM] Searches for a specified term.");
-                Console.WriteLine("");
-                Console.WriteLine("META");
-                Console.WriteLine("--url                  Display search url. (used for debugging)");
+                Console.WriteLine("Set a wallhaven.cc wallpaper from the comfort of your OS.\n");
+                Console.WriteLine("Usage:");
+                Console.WriteLine("  theme-me-up [one or more options]\n");
+                Console.WriteLine("Examples:");
+                Console.WriteLine("  theme-me-up             Sets the newest SFW wallpaper as desktop background");
+                Console.WriteLine("  theme-me-up -n          Sets the newest NSFW wallpaper as desktop background");
+                Console.WriteLine("  theme-me-up -n -k       Sets the newest NSFW or Sketchy wallpaper as desktop background");
+                Console.WriteLine("  theme-me-up --query=car Sets the newest 'car' wallpaper as desktop background");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("General Options:");
+                Console.WriteLine("  --api          Displays help about API keys");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("Purity Options:");
+                Console.WriteLine("  If no purity option is provided,");
+                Console.WriteLine("  only SFW wallpapers will be fetched.\n");
+                Console.WriteLine("  -n | --nsfw    Include NSFW wallpapers (API key required)");
+                Console.WriteLine("  -s | --sfw     Include SFW wallpapers");
+                Console.WriteLine("  -k | --sketchy Include Sketchy wallpapers");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("Custom Search:");
+                Console.WriteLine("  -q=<TERM> | --query=<TERM>    Search for a wallpaper");
                 return;
             }
 
-            var targetUrl = sfwRandom;
-            if(args.Any(arg => arg.ToLower() == "--nsfw" || arg.ToLower() == "-n"))
+            if(args.Any(arg => arg == "--api"))
             {
-                targetUrl = sketchyRandom;
-            }
-            else if(args.Any(arg => arg.ToLower() == "--mixed" || arg.ToLower() == "-m"))
-            {
-                targetUrl = normalAndSketchyRandom;
-            }
-
-            if(args.Any(arg => arg.ToLower() == "--anime" || arg.ToLower() == "-a"))
-            {
-                targetUrl += "&categories=010";
-            }
-            else if(args.Any(arg => arg.ToLower() == "--general" || arg.ToLower() == "-g"))
-            {
-                targetUrl += "&categories=100";
-            }
-            else
-            {
-                targetUrl += "&categories=111";
-            }
-
-            if(args.Any(arg => arg.ToLower() == "--wide" || arg.ToLower() == "-w"))
-            {
-                targetUrl += "&ratios=16x9";
-            }
-
-            var searchTerm = args.Where(arg => arg.StartsWith("--search=")).Select(s => s.Substring(9)).FirstOrDefault();
-            if(!string.IsNullOrEmpty(searchTerm))
-            {
-                targetUrl += "&q=" + HttpUtility.UrlEncode(searchTerm);
-            }
-
-            if(args.Any(arg => arg.ToLower() == "--url"))
-            {
-                Console.WriteLine(targetUrl);
-            }
-
-            var url = FetchRandomWallpaper(targetUrl);
-
-            if(url is null) {
-                Console.WriteLine("Wallhaven.cc was unable to provide wallpapers for your options.");
-                Console.WriteLine("If you used a search term, it is possible there are not results for it.");
+                Console.WriteLine("Theme Me Up");
+                Console.WriteLine("  API KEY HELP");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("In order to use NSFW wallpapers, you need to set an API key.");
+                Console.WriteLine("You get an API key here: https://wallhaven.cc/settings/account");
+                Console.WriteLine("A free account is required.");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("Use the following command to set your key:");
+                Console.WriteLine("  theme-me-up --key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 return;
             }
 
-            var wallpaperFileName = Path.GetFileName(url);
-            var wallpaperFilePath = Path.Combine(wallhavenCacheDir, wallpaperFileName);
-
-            if(!File.Exists(wallpaperFilePath))
-                DownloadImage(url, wallpaperFilePath);
-
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                SetWallpaperGnome(wallpaperFilePath);
-            } else if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                SetWallpaperWindows(wallpaperFilePath);
-            } else {
-                Console.WriteLine("Sorry, ThemeMeUp doesn't know how to set the wallpaper on your OS.");
-                Console.WriteLine("However, we downloaded the wallpaper to your Pictures directory. =)");
-            }
-        }
-
-        private static string FetchRandomWallpaper(string baseUrl)
-        {
-            using (WebClient client = new WebClient ())
+            var keyArg = args.FirstOrDefault(arg => arg.StartsWith("--key="));
+            if(keyArg != null)
             {
-                string htmlCode = client.DownloadString(baseUrl);
-                var regex = new Regex(@"wallhaven\.cc\/small\/.*?href=""(.*?)""");
-                var match = regex.Match(htmlCode);
-                if(!match.Success) { return null; }
-                var wallpaperPageUrl = match.Groups[1].Value;
-                var finalHtml = client.DownloadString(wallpaperPageUrl);
-                var wallpaperRegex = new Regex(@"<img id=""wallpaper"" src=""(.*?\/full\/.*?)""");
-                var finalMatch = wallpaperRegex.Match(finalHtml);
-                return finalMatch.Groups[1].Value;
+                var key = keyArg.Substring(6);
+                Environment.SetEnvironmentVariable("WALLHAVEN_API_KEY", key);
+                Console.WriteLine($"Your provided {key.Length} characters long API key was set.");
+                return;
             }
-        }
 
-        private static void DownloadImage(string url, string file)
-        {
-            using(WebClient client = new WebClient())
-            {
-                client.DownloadFile(url, file);
-            }
-        }
+            var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
 
-        private static void SetWallpaperGnome(string file)
-        {
-            using var process = Process.Start(
-            new ProcessStartInfo
+            var searchQuery = GetQueryArgValue(args.FirstOrDefault(arg => arg.StartsWith("-q=") || arg.StartsWith("--query=")));
+
+            await useCase.Execute(new GetLatestWallpapersInput
             {
-                FileName = "gsettings",
-                ArgumentList = { "set", "org.gnome.desktop.background", "picture-uri", file }
+                Nsfw = args.Any(arg => arg == "-n" || arg == "--nsfw"),
+                Sfw = args.Any(arg => arg == "-s" || arg == "--sfw"),
+                Sketchy = args.Any(arg => arg == "-k" || arg == "--sketchy"),
+                SearchTerm = searchQuery
             });
-            process.WaitForExit();
         }
 
-        private static void SetWallpaperWindows(string file) => SystemParametersInfo(0x0014, 0, file, 0x0001);
+        private static string GetQueryArgValue(string arg)
+        {
+            if(arg is null) { return string.Empty; }
+            if(arg.StartsWith("--query=")) { return arg.Substring(8); }
+            if(arg.StartsWith("-q=")) { return arg.Substring(3); }
+            return string.Empty;
+        }
     }
 }
