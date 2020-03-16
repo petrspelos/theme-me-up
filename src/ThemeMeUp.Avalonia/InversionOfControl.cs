@@ -1,6 +1,7 @@
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using ThemeMeUp.ApiWrapper;
+using ThemeMeUp.Avalonia.Utilities;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
@@ -29,6 +30,7 @@ namespace ThemeMeUp.Avalonia
             => _provider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
                 .AddSingleton<UrlImageConverter>()
+                .AddSingleton<WallpaperSetter>()
                 .AddSingleton<INetwork, Network>()
                 //.AddSingleton<INetwork, MockNetwork>()
                 .AddSingleton<IWallhavenClient, WallhavenClient>()

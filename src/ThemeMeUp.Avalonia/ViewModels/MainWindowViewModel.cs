@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using ReactiveUI;
 using ThemeMeUp.Avalonia.Models;
+using ThemeMeUp.Avalonia.Utilities;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 
@@ -16,18 +18,21 @@ namespace ThemeMeUp.Avalonia.ViewModels
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpapersPresenter _output;
         private readonly UrlImageConverter _imgConverter;
+        private readonly WallpaperSetter _wallpaperSetter;
         private string _searchTerm;
         private bool _includeSfw;
         private bool _includeSketchy;
         private bool _includeNsfw;
         private bool _fetchButtonEnabled = true;
         private IEnumerable<WallpaperModel> _wallpapers;
+        private WallpaperModel _selectedWallpaper;
 
-        public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter)
+        public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter, WallpaperSetter wallpaperSetter)
         {
             _useCase = useCase;
             _output = (LatestWallpapersPresenter)output;
             _imgConverter = imgConverter;
+            _wallpaperSetter = wallpaperSetter;
         }
 
         public string Greeting => "Hello World!";
@@ -68,6 +73,12 @@ namespace ThemeMeUp.Avalonia.ViewModels
             set => _ = this.RaiseAndSetIfChanged(ref _wallpapers, value);
         }
 
+        public WallpaperModel SelectedWallpaper
+        {
+            get => _selectedWallpaper;
+            set => _ = this.RaiseAndSetIfChanged(ref _selectedWallpaper, value);
+        }
+
         public async void OnGetWallpapers()
         {
             Wallpapers = new WallpaperModel[0];
@@ -102,9 +113,19 @@ namespace ThemeMeUp.Avalonia.ViewModels
             FetchButtonEnabled = true;
         }
 
+        public async void SetSelectedWallpaper()
+        {
+            if(SelectedWallpaper is null) { return; }
+            
+            await _wallpaperSetter.SetFromUrlAsync(SelectedWallpaper.FullImageUrl);
+        }
+
         private async Task<WallpaperModel> ToModel(Wallpaper w)
         {
-            var model = new WallpaperModel();
+            var model = new WallpaperModel
+            {
+                FullImageUrl = w.FullImageUrl
+            };
 
             model.ThumbnailBitmap = await _imgConverter.UrlToBitmapAsync(w.SmallThumbnailUrl);
             

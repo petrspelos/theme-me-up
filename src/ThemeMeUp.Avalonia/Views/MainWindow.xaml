@@ -33,8 +33,9 @@
                 <Button Command="{Binding OnGetWallpapers}" Margin="10" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
             </StackPanel>
             <StackPanel Grid.Column="1" Grid.Row="0">
+                <Button Command="{Binding SetSelectedWallpaper}" Margin="10">Set selected wallpaper</Button>
                 <TextBlock HorizontalAlignment="Center" Margin="10">Search Results</TextBlock>
-                <ListBox Items="{Binding Wallpapers}" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox Items="{Binding Wallpapers}" SelectedItem="{Binding SelectedWallpaper}" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />

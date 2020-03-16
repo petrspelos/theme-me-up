@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 
-namespace ThemeMeUp.Avalonia
+namespace ThemeMeUp.Avalonia.Utilities
 {
     public class UrlImageConverter
     {
