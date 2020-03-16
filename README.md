@@ -13,7 +13,7 @@ A command line + GUI utility to set wallpapers from [wallhaven.cc](https://wallh
 ### Examples
 
 ```bash
-theme-me-up --nsfw --search=overwatch
+theme-me-up --nsfw --query=overwatch
 ```
 
 > Sets the latest NSFW overwatch wallpaper as your desktop background
@@ -21,7 +21,7 @@ theme-me-up --nsfw --search=overwatch
 ---
 
 ```bash
-theme-me-up --search=id:338
+theme-me-up --query=id:338
 ```
 
 > Sets the latest SFW wallpaper with the `night` tag. See [wallhaven.cc/tags](https://wallhaven.cc/tags) for tag IDs.
