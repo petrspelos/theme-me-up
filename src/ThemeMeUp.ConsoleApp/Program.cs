@@ -1,12 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Diagnostics;
-using System.Net;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Runtime.InteropServices;
 using Lamar;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
 using ThemeMeUp.Infrastructure;
@@ -34,16 +28,6 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<IAuthentication>().UseIfNone<EnvironmentAuthentication>();
                 c.For<WallpaperSetter>().UseIfNone<WallpaperSetter>();
             });
-
-            // var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
-
-            // await useCase.Execute(new GetLatestWallpapersInput
-            // {
-            //     Nsfw = true
-            // });
-            
-            // Console.WriteLine("Press any key to exit...");
-            // _ = Console.ReadKey();
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
                 Console.WriteLine("Theme Me Up");
