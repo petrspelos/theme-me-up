@@ -37,7 +37,7 @@ namespace ThemeMeUp.Avalonia
                 .AddSingleton<IWallpaperProvider, WallpaperProvider>()
                 .AddSingleton<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>()
                 .AddSingleton<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>()
-                .AddSingleton<IAuthentication, EnvironmentAuthentication>()
+                .AddSingleton<IAuthentication, JsonFileAuthentication>()
                 .BuildServiceProvider();
     }
 }

@@ -25,7 +25,7 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<IWallpaperProvider>().UseIfNone<WallpaperProvider>();
                 c.For<IGetLatestWallpapersUseCase>().Use<GetLatestWallpapersUseCase>();
                 c.For<IGetLatestWallpapersOutputPort>().UseIfNone<LatestWallpapersPresenter>();
-                c.For<IAuthentication>().UseIfNone<EnvironmentAuthentication>();
+                c.For<IAuthentication>().UseIfNone<JsonFileAuthentication>();
                 c.For<WallpaperSetter>().UseIfNone<WallpaperSetter>();
             });
 
