@@ -88,8 +88,9 @@ namespace ThemeMeUp.ConsoleApp
             var keyArg = args.FirstOrDefault(arg => arg.StartsWith("--key="));
             if(keyArg != null)
             {
+                var auth = container.GetInstance<IAuthentication>();
                 var key = keyArg.Substring(6);
-                Environment.SetEnvironmentVariable("WALLHAVEN_API_KEY", key);
+                auth.SetApiKey(key);
                 Console.WriteLine($"Your provided {key.Length} characters long API key was set.");
                 return;
             }
