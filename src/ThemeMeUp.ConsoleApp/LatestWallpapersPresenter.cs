@@ -27,6 +27,11 @@ namespace ThemeMeUp.ConsoleApp
             await _setter.SetFromUrlAsync(wallpapers.First().FullImageUrl);
         }
 
+        public void InvalidApiKey()
+        {
+            Console.WriteLine("The provided API key was rejected by wallhaven.cc");
+        }
+
         public void NoConnection()
         {
             Console.WriteLine("Internet connection is needed to fetch the latest wallpapers.");

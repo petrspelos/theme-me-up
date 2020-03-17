@@ -5,6 +5,7 @@ using ThemeMeUp.ApiWrapper.Entities.Api;
 using ThemeMeUp.ApiWrapper.Entities.Requests;
 using ThemeMeUp.ApiWrapper.Entities.Responses;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Core.Entities.Exceptions;
 
 namespace ThemeMeUp.ApiWrapper
 {
@@ -33,11 +34,27 @@ namespace ThemeMeUp.ApiWrapper
                 json = await _network.GetStringAsync(url);
             }
 
+            AssertNotErrorResponse(json);
             
             var latestWallpapers = JsonConvert.DeserializeObject<LatestWallpapersResponse>(json);
             return latestWallpapers.Data;
         }
 
         public bool IsAuthenticated() => !string.IsNullOrWhiteSpace(_auth.GetApiKey());
+
+        private void AssertNotErrorResponse(string json)
+        {
+            if(!json.Contains("error"))
+            {
+                return;
+            }
+
+            var error = JsonConvert.DeserializeObject<ErrorResponse>(json);
+
+            if(error != null)
+            {
+                throw new InvalidApiKeyException();
+            }
+        }
     }
 }

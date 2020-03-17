@@ -40,6 +40,10 @@ namespace ThemeMeUp.Core.UseCases
             {
                 _output.Unauthenticated();
             }
+            catch (InvalidApiKeyException)
+            {
+                _output.InvalidApiKey();
+            }
         }
     }
 }

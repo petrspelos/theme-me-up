@@ -43,5 +43,10 @@ namespace ThemeMeUp.Avalonia
 
         private void ShowSimpleMessage(string title, string content)
             => MessageBoxManager.GetMessageBoxStandardWindow(title, content).Show();
+
+        public void InvalidApiKey()
+        {
+            ShowSimpleMessage("Invalid API Key", "The provided API key was rejected by wallhaven.");
+        }
     }
 }
