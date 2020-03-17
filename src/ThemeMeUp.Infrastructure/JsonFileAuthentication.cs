@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
@@ -7,7 +8,15 @@ namespace ThemeMeUp.Infrastructure
 {
     public class JsonFileAuthentication : IAuthentication
     {
-        const string ConfigFilePath = "config.json";
+        private readonly string _configFullPath;
+
+        public JsonFileAuthentication()
+        {
+            var dataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var appFolder = Path.Combine(dataFolder, "theme-me-up");
+            Directory.CreateDirectory(appFolder);
+            _configFullPath = Path.Combine(appFolder, "config.json");
+        }
 
         public string GetApiKey()
         {
@@ -22,11 +31,11 @@ namespace ThemeMeUp.Infrastructure
             StoreConfig(config);
         }
 
-        private static JsonConfig GetConfig()
+        private JsonConfig GetConfig()
         {
             try
             {
-                var json = File.ReadAllText(ConfigFilePath);
+                var json = File.ReadAllText(_configFullPath);
                 return JsonConvert.DeserializeObject<JsonConfig>(json);
             }
             catch (FileNotFoundException)
@@ -35,17 +44,17 @@ namespace ThemeMeUp.Infrastructure
             }
         }
 
-        private static JsonConfig InitializeDefaultConfig()
+        private JsonConfig InitializeDefaultConfig()
         {
             var config = new JsonConfig();
             StoreConfig(config);
             return config;
         }
 
-        private static void StoreConfig(JsonConfig config)
+        private void StoreConfig(JsonConfig config)
         {
-            var json = JsonConvert.SerializeObject(config);
-            File.WriteAllText(ConfigFilePath, json);
+            var json = JsonConvert.SerializeObject(config, Formatting.Indented);
+            File.WriteAllText(_configFullPath, json);
         }
     }
 }
