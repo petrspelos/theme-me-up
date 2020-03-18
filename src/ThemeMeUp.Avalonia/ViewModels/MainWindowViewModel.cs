@@ -24,6 +24,9 @@ namespace ThemeMeUp.Avalonia.ViewModels
         private bool _includeSfw;
         private bool _includeSketchy;
         private bool _includeNsfw;
+        private bool _includeGeneral = true;
+        private bool _includeAnime = true;
+        private bool _includePeople = true;
         private bool _fetchButtonEnabled = true;
         private IEnumerable<WallpaperModel> _wallpapers;
         private WallpaperModel _selectedWallpaper;
@@ -62,6 +65,24 @@ namespace ThemeMeUp.Avalonia.ViewModels
             set => _ = this.RaiseAndSetIfChanged(ref _includeNsfw, value);
         }
 
+        public bool IncludeGeneral
+        {
+            get => _includeGeneral;
+            set => _ = this.RaiseAndSetIfChanged(ref _includeGeneral, value);
+        }
+
+        public bool IncludeAnime
+        {
+            get => _includeAnime;
+            set => _ = this.RaiseAndSetIfChanged(ref _includeAnime, value);
+        }
+
+        public bool IncludePeople
+        {
+            get => _includePeople;
+            set => _ = this.RaiseAndSetIfChanged(ref _includePeople, value);
+        }
+
         public bool FetchButtonEnabled
         {
             get => _fetchButtonEnabled;
@@ -92,7 +113,10 @@ namespace ThemeMeUp.Avalonia.ViewModels
                 SearchTerm = SearchTerm,
                 Sfw = IncludeSfw,
                 Sketchy = IncludeSketchy,
-                Nsfw = IncludeNsfw
+                Nsfw = IncludeNsfw,
+                General = IncludeGeneral,
+                Anime = IncludeAnime,
+                People = IncludePeople
             });
 
             if(_output.noApiKey || _output.noConnection)

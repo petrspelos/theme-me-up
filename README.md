@@ -49,7 +49,9 @@ theme-me-up --query=id:338
 | Option            | Description   |
 | ----------------- |:--------------|
 | `--query=[SEARCH TERM]` or `-q=[SEARCH TERM]` | Searches for a specified term. |
-
+| `-g` or `--general` | Includes wallpapers from the "General" category. |
+| `-a` or `--anime` | Includes wallpapers from the "Anime" category. |
+| `-p` or `--people` | Includes wallpapers from the "People" category. |
 
 ### GNU/Linux utilities
 
@@ -75,7 +77,7 @@ Things to improve:
 
 - ~~Switch to wallhaven API~~
 - Support all options wallhaven offers for filtering
-    - Support for content filters
+    - ~~Support for content filters~~
     - Support for pages in the Avalonia UI
 - Maybe allow for caching of results
 - ~~Support other systems, currently made just for my Elementary OS (will probably run on Ubuntu).`~~

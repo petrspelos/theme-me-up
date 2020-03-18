@@ -51,6 +51,13 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("  -s | --sfw     Include SFW wallpapers");
                 Console.WriteLine("  -k | --sketchy Include Sketchy wallpapers");
                 Console.WriteLine(string.Empty);
+                Console.WriteLine("Content Options:");
+                Console.WriteLine("  If no content option is provided,");
+                Console.WriteLine("  all options are included.\n");
+                Console.WriteLine("  -g | --general      Include General wallpapers");
+                Console.WriteLine("  -a | --anime        Include Anime wallpapers");
+                Console.WriteLine("  -p | --people       Include People wallpapers");
+                Console.WriteLine(string.Empty);
                 Console.WriteLine("GNU/Linux wallpaper utilities:");
                 Console.WriteLine("  --feh          Sets the wallpaper using feh");
                 Console.WriteLine("  --nitrogen     Sets the wallpaper using nitrogen");
@@ -100,6 +107,9 @@ namespace ThemeMeUp.ConsoleApp
                 Nsfw = args.Any(arg => arg == "-n" || arg == "--nsfw"),
                 Sfw = args.Any(arg => arg == "-s" || arg == "--sfw"),
                 Sketchy = args.Any(arg => arg == "-k" || arg == "--sketchy"),
+                General = args.Any(arg => arg == "-g" || arg == "--general"),
+                Anime = args.Any(arg => arg == "-a" || arg == "--anime"),
+                People = args.Any(arg => arg == "-p" || arg == "--people"),
                 SearchTerm = searchQuery
             });
         }

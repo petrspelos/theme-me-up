@@ -26,7 +26,10 @@ namespace ThemeMeUp.Core.UseCases
                     Sfw = input.Sfw,
                     Sketchy = input.Sketchy,
                     Nsfw = input.Nsfw,
-                    SearchTerm = input.SearchTerm
+                    SearchTerm = input.SearchTerm,
+                    General = input.General,
+                    Anime = input.Anime,
+                    People = input.People
                 });
                 _output.Default(wallpapers);
             }

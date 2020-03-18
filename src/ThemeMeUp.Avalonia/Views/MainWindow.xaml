@@ -38,9 +38,9 @@
                     <CheckBox IsChecked="{Binding IncludeSketchy}" Margin="10 10 0 0">Include Sketchy</CheckBox>
                     <CheckBox IsChecked="{Binding IncludeNsfw}" Margin="10 10 0 0">Include NSFW</CheckBox>
                     <TextBlock FontWeight="Bold" Margin="10 20 10 0">Categories</TextBlock>
-                    <CheckBox Margin="10 10 0 0" IsChecked="True">General</CheckBox>
-                    <CheckBox Margin="10 10 0 0" IsChecked="True">Anime</CheckBox>
-                    <CheckBox Margin="10 10 0 0" IsChecked="True">People</CheckBox>
+                    <CheckBox IsChecked="{Binding IncludeGeneral}" Margin="10 10 0 0">General</CheckBox>
+                    <CheckBox IsChecked="{Binding IncludeAnime}" Margin="10 10 0 0">Anime</CheckBox>
+                    <CheckBox IsChecked="{Binding IncludePeople}" Margin="10 10 0 0">People</CheckBox>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Button Command="{Binding OnGetWallpapers}" Margin="10 10 10 5" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>
