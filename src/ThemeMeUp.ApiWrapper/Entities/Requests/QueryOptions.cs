@@ -1,5 +1,6 @@
 using ThemeMeUp.ApiWrapper.Entities.Api;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Core.Entities.Sorting;
 
 namespace ThemeMeUp.ApiWrapper.Entities.Requests
 {
@@ -10,6 +11,8 @@ namespace ThemeMeUp.ApiWrapper.Entities.Requests
         public Category Category { get; set; }
 
         public FuzzySearch FuzzySearch { get; set; }
+
+        public IWallpaperSort Sort { get; set; }
 
         public QueryOptions(SearchOptions options)
         {
@@ -31,8 +34,10 @@ namespace ThemeMeUp.ApiWrapper.Entities.Requests
             {
                 SearchTerm = options.SearchTerm
             };
+
+            Sort = options.Sort;
         }
 
-        public string ToQueryString() => $"{Purity.ToQueryParameter()}&{Category.ToQueryParameter()}&{FuzzySearch.ToQueryParameter()}";
+        public string ToQueryString() => $"{Purity.ToQueryParameter()}&{Category.ToQueryParameter()}&{FuzzySearch.ToQueryParameter()}&{Sort.ToQueryParameter()}";
     }
 }

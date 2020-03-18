@@ -1,3 +1,5 @@
+using ThemeMeUp.Core.Entities.Sorting;
+
 namespace ThemeMeUp.Core.Entities
 {
     public class SearchOptions
@@ -9,5 +11,6 @@ namespace ThemeMeUp.Core.Entities
         public bool Anime { get; set; }
         public bool People { get; set; }
         public string SearchTerm { get; set; }
+        public IWallpaperSort Sort { get; set; }
     }
 }

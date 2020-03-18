@@ -8,7 +8,7 @@
         Icon="/Assets/icon.png"
         Title="Theme me up"
         MinWidth="875"
-        MinHeight="560">
+        MinHeight="600">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -41,6 +41,9 @@
                     <CheckBox IsChecked="{Binding IncludeGeneral}" Margin="10 10 0 0">General</CheckBox>
                     <CheckBox IsChecked="{Binding IncludeAnime}" Margin="10 10 0 0">Anime</CheckBox>
                     <CheckBox IsChecked="{Binding IncludePeople}" Margin="10 10 0 0">People</CheckBox>
+                    <TextBlock FontWeight="Bold" Margin="10 20 10 0">Sort</TextBlock>
+                    
+                    <ComboBox SelectedItem="{Binding SelectedSort}" Items="{Binding SortItems}" Margin="10" Background="White" />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Button Command="{Binding OnGetWallpapers}" Margin="10 10 10 5" IsEnabled="{Binding FetchButtonEnabled}">Fetch wallpapers</Button>

@@ -11,6 +11,7 @@ using ThemeMeUp.Avalonia.Utilities;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Core.Entities.Sorting;
 
 namespace ThemeMeUp.Avalonia.ViewModels
 {
@@ -29,6 +30,8 @@ namespace ThemeMeUp.Avalonia.ViewModels
         private bool _includePeople = true;
         private bool _fetchButtonEnabled = true;
         private IEnumerable<WallpaperModel> _wallpapers;
+        private IEnumerable<string> _sorts;
+        private string _selectedSort;
         private WallpaperModel _selectedWallpaper;
 
         public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter, IWallpaperSetter wallpaperSetter)
@@ -37,6 +40,18 @@ namespace ThemeMeUp.Avalonia.ViewModels
             _output = (LatestWallpapersPresenter)output;
             _imgConverter = imgConverter;
             _wallpaperSetter = wallpaperSetter;
+            _sorts = new string[]
+            {
+                "Latest",
+                "Top (1 day)",
+                "Top (3 days)",
+                "Top (1 week)",
+                "Top (1 month)",
+                "Top (3 months)",
+                "Top (6 months)",
+                "Top (1 year)"
+            };
+            _selectedSort = _sorts.First();
         }
 
         public string Greeting => "Hello World!";
@@ -95,6 +110,18 @@ namespace ThemeMeUp.Avalonia.ViewModels
             set => _ = this.RaiseAndSetIfChanged(ref _wallpapers, value);
         }
 
+        public IEnumerable<string> SortItems
+        {
+            get => _sorts;
+            set => _ = this.RaiseAndSetIfChanged(ref _sorts, value);
+        }
+
+        public string SelectedSort
+        {
+            get => _selectedSort;
+            set => _ = this.RaiseAndSetIfChanged(ref _selectedSort, value);
+        }
+
         public WallpaperModel SelectedWallpaper
         {
             get => _selectedWallpaper;
@@ -116,7 +143,8 @@ namespace ThemeMeUp.Avalonia.ViewModels
                 Nsfw = IncludeNsfw,
                 General = IncludeGeneral,
                 Anime = IncludeAnime,
-                People = IncludePeople
+                People = IncludePeople,
+                Sort = SortFromString(_selectedSort)
             });
 
             if(_output.noApiKey || _output.noConnection)
@@ -154,6 +182,21 @@ namespace ThemeMeUp.Avalonia.ViewModels
             model.ThumbnailBitmap = await _imgConverter.UrlToBitmapAsync(w.SmallThumbnailUrl);
             
             return model;
+        }
+
+        private IWallpaperSort SortFromString(string val)
+        {
+            return val switch
+            {
+                "Top (1 day)" => new TopSort(TopSortRange.Day),
+                "Top (3 days)" => new TopSort(TopSortRange.ThreeDays),
+                "Top (1 week)" => new TopSort(TopSortRange.Week),
+                "Top (1 month)" => new TopSort(TopSortRange.Month),
+                "Top (3 months)" => new TopSort(TopSortRange.ThreeMonths),
+                "Top (6 months)" => new TopSort(TopSortRange.HalfYear),
+                "Top (1 year)" => new TopSort(TopSortRange.Year),
+                _ => new LatestSort()
+            };
         }
     }
 }

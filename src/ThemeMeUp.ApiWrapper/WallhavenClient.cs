@@ -35,7 +35,7 @@ namespace ThemeMeUp.ApiWrapper
             }
 
             AssertNotErrorResponse(json);
-            
+
             var latestWallpapers = JsonConvert.DeserializeObject<LatestWallpapersResponse>(json);
             return latestWallpapers.Data;
         }

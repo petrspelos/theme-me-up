@@ -13,7 +13,7 @@ using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.UseCases;
 using Xunit;
 
-namespace ThemeMeUp.Tests
+namespace ThemeMeUp.Tests.UseCases
 {
     public class GetLatestWallpapersTests
     {

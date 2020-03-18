@@ -29,7 +29,8 @@ namespace ThemeMeUp.Core.UseCases
                     SearchTerm = input.SearchTerm,
                     General = input.General,
                     Anime = input.Anime,
-                    People = input.People
+                    People = input.People,
+                    Sort = input.Sort
                 });
                 _output.Default(wallpapers);
             }
