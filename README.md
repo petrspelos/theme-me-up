@@ -51,6 +51,16 @@ theme-me-up --query=id:338
 | `--query=[SEARCH TERM]` or `-q=[SEARCH TERM]` | Searches for a specified term. |
 
 
+### GNU/Linux utilities
+
+| Option            | Description   |
+| ----------------- |:--------------|
+| `--gnome` | Sets the wallpaper through gsettings. (default) |
+| `--feh` | Sets the wallpaper using feh. |
+| `--nitrogen` | Sets the wallpaper using nitrogen. |
+
+> _Once you use one of these options, they get stored in your config so you don't have to provide them from that point on._
+
 ## How's this project going?
 
 ~~I just needed this utility and so I put it together in a couple of minutes.~~
@@ -65,7 +75,9 @@ Things to improve:
 
 - ~~Switch to wallhaven API~~
 - Support all options wallhaven offers for filtering
+    - Support for content filters
+    - Support for pages in the Avalonia UI
 - Maybe allow for caching of results
 - ~~Support other systems, currently made just for my Elementary OS (will probably run on Ubuntu).`~~
     - Supports Linux with Gnome, and Windows.
-- Add support for other wallpaper options in Linux (eg. feh or nitrogen).
+- ~~Add support for other wallpaper options in Linux (eg. feh or nitrogen).~~

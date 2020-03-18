@@ -38,6 +38,8 @@ namespace ThemeMeUp.Avalonia
                 .AddSingleton<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>()
                 .AddSingleton<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>()
                 .AddSingleton<IAuthentication, JsonFileAuthentication>()
+                .AddSingleton<IWallpaperSetter, WallpaperSetter>()
+                .AddSingleton<Configuration, Configuration>()
                 .BuildServiceProvider();
     }
 }

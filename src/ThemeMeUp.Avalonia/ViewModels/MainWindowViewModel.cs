@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using ReactiveUI;
 using ThemeMeUp.Avalonia.Models;
 using ThemeMeUp.Avalonia.Utilities;
+using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 
@@ -18,7 +19,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpapersPresenter _output;
         private readonly UrlImageConverter _imgConverter;
-        private readonly WallpaperSetter _wallpaperSetter;
+        private readonly IWallpaperSetter _wallpaperSetter;
         private string _searchTerm;
         private bool _includeSfw;
         private bool _includeSketchy;
@@ -27,7 +28,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
         private IEnumerable<WallpaperModel> _wallpapers;
         private WallpaperModel _selectedWallpaper;
 
-        public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter, WallpaperSetter wallpaperSetter)
+        public MainWindowViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort output, UrlImageConverter imgConverter, IWallpaperSetter wallpaperSetter)
         {
             _useCase = useCase;
             _output = (LatestWallpapersPresenter)output;

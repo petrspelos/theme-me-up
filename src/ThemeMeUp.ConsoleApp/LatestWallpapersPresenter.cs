@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ThemeMeUp.ConsoleApp.Utilities;
+using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 
@@ -9,9 +9,9 @@ namespace ThemeMeUp.ConsoleApp
 {
     public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
-        private readonly WallpaperSetter _setter;
+        private readonly IWallpaperSetter _setter;
 
-        public LatestWallpapersPresenter(WallpaperSetter setter)
+        public LatestWallpapersPresenter(IWallpaperSetter setter)
         {
             _setter = setter;
         }

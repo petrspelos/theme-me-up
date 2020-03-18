@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
-using ThemeMeUp.Core.Boundaries.Infrastructure;
 using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.Entities.Exceptions;
 
@@ -9,7 +8,6 @@ namespace ThemeMeUp.Core.UseCases
 {
     public class GetLatestWallpapersUseCase : IGetLatestWallpapersUseCase
     {
-        private readonly INetwork _network;
         private readonly IGetLatestWallpapersOutputPort _output;
         private readonly IWallpaperProvider _wallpaperProvider;
 

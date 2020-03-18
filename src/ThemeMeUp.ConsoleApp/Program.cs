@@ -9,7 +9,6 @@ using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using System.Threading.Tasks;
 using ThemeMeUp.ApiWrapper;
 using ThemeMeUp.Core.Boundaries;
-using ThemeMeUp.ConsoleApp.Utilities;
 
 namespace ThemeMeUp.ConsoleApp
 {
@@ -27,6 +26,8 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<IGetLatestWallpapersOutputPort>().UseIfNone<LatestWallpapersPresenter>();
                 c.For<IAuthentication>().UseIfNone<JsonFileAuthentication>();
                 c.For<WallpaperSetter>().UseIfNone<WallpaperSetter>();
+                c.For<IWallpaperSetter>().UseIfNone<WallpaperSetter>();
+                c.For<Configuration>().UseIfNone<Configuration>();
             });
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
@@ -49,6 +50,14 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("  -n | --nsfw    Include NSFW wallpapers (API key required)");
                 Console.WriteLine("  -s | --sfw     Include SFW wallpapers");
                 Console.WriteLine("  -k | --sketchy Include Sketchy wallpapers");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("GNU/Linux wallpaper utilities:");
+                Console.WriteLine("  --feh          Sets the wallpaper using feh");
+                Console.WriteLine("  --nitrogen     Sets the wallpaper using nitrogen");
+                Console.WriteLine("  --gnome        Sets the wallpaper through gsettings (default)");
+                Console.WriteLine(string.Empty);
+                Console.WriteLine("For custom utilities please change the ");
+                Console.WriteLine("in ~/.config/theme-me-up/config.json file.");
                 Console.WriteLine(string.Empty);
                 Console.WriteLine("Custom Search:");
                 Console.WriteLine("  -q=<TERM> | --query=<TERM>    Search for a wallpaper");
@@ -78,6 +87,9 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine($"Your provided {key.Length} characters long API key was set.");
                 return;
             }
+
+            var wallSetter = container.GetInstance<IWallpaperSetter>();
+            wallSetter.ApplyArgs(args);
 
             var useCase = container.GetInstance<IGetLatestWallpapersUseCase>();
 

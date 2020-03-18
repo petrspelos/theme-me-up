@@ -1,28 +1,59 @@
+
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using ThemeMeUp.Core.Boundaries;
 
-namespace ThemeMeUp.Avalonia.Utilities
+namespace ThemeMeUp.Infrastructure
 {
-    public class WallpaperSetter
+    public class WallpaperSetter : IWallpaperSetter
     {
+        private readonly Configuration _config;
+
+        public WallpaperSetter(Configuration config, HttpClient client)
+        {
+            _config = config;
+            _client = client;
+
+            var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            _wallpapersDirectoryPath = Path.Combine(picturesDir, "wallhaven");
+            Directory.CreateDirectory(_wallpapersDirectoryPath);
+        }
+
         private readonly HttpClient _client;
         private readonly string _wallpapersDirectoryPath;
 
         [DllImport("User32", CharSet = CharSet.Auto)]
         public static extern int SystemParametersInfo(int uiAction, int uiParam, string pvParam, uint fWinIni);
 
-        public WallpaperSetter(HttpClient client)
+        public void ApplyArgs(string[] args)
         {
-            _client = client;
+            var cfg = _config.GetConfig();
 
-            var picturesDir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            _wallpapersDirectoryPath = Path.Combine(picturesDir, "wallhaven");
-            Directory.CreateDirectory(_wallpapersDirectoryPath);
+            if(args.Contains("--nitrogen"))
+            {
+                cfg.WallpaperApp = "nitrogen";
+                cfg.WallpaperAppArgs = "{0} --set-scaled";
+            }
+            
+            if(args.Contains("--feh"))
+            {
+                cfg.WallpaperApp = "feh";
+                cfg.WallpaperAppArgs = "--bg-scale {0}";
+            }
+
+            if(args.Contains("--gnome"))
+            {
+                cfg.WallpaperApp = "gsettings";
+                cfg.WallpaperAppArgs = "set org.gnome.desktop.background picture-uri {0}";
+            }
+
+            _config.StoreConfig(cfg);
         }
 
         public Task SetFromUrlAsync(string url)
@@ -48,7 +79,7 @@ namespace ThemeMeUp.Avalonia.Utilities
             if(!File.Exists(filePath)) { return; }
             
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                SetWallpaperGnome(filePath);
+                SetWallpaperGnuLinux(filePath);
             } else if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                 SetWallpaperWindows(filePath);
             } else {
@@ -56,13 +87,15 @@ namespace ThemeMeUp.Avalonia.Utilities
             }
         }
 
-        private static void SetWallpaperGnome(string file)
+        private void SetWallpaperGnuLinux(string file)
         {
+            var cfg = _config.GetConfig();
+
             using var process = Process.Start(
             new ProcessStartInfo
             {
-                FileName = "gsettings",
-                ArgumentList = { "set", "org.gnome.desktop.background", "picture-uri", file }
+                FileName = cfg.WallpaperApp,
+                Arguments = string.Format(cfg.WallpaperAppArgs, file)
             });
             process.WaitForExit();
         }
