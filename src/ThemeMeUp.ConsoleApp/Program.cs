@@ -9,6 +9,7 @@ using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using System.Threading.Tasks;
 using ThemeMeUp.ApiWrapper;
 using ThemeMeUp.Core.Boundaries;
+using ThemeMeUp.Core.Entities.Sorting;
 
 namespace ThemeMeUp.ConsoleApp
 {
@@ -58,6 +59,17 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("  -a | --anime        Include Anime wallpapers");
                 Console.WriteLine("  -p | --people       Include People wallpapers");
                 Console.WriteLine(string.Empty);
+                Console.WriteLine("Sort Options:");
+                Console.WriteLine("  If no content option is provided,");
+                Console.WriteLine("  newest wallpaper is picked.\n");
+                Console.WriteLine("  --top-today         Picks the most popular wallpaper today");
+                Console.WriteLine("  --top-3days         Picks the most popular wallpaper last 3 days");
+                Console.WriteLine("  --top-week          Picks the most popular wallpaper last week");
+                Console.WriteLine("  --top-month         Picks the most popular wallpaper last month");
+                Console.WriteLine("  --top-3months       Picks the most popular wallpaper last 3 months");
+                Console.WriteLine("  --top-halfYear      Picks the most popular wallpaper last 6 months");
+                Console.WriteLine("  --top-year          Picks the most popular wallpaper last year");
+                Console.WriteLine(string.Empty);
                 Console.WriteLine("GNU/Linux wallpaper utilities:");
                 Console.WriteLine("  --feh          Sets the wallpaper using feh");
                 Console.WriteLine("  --nitrogen     Sets the wallpaper using nitrogen");
@@ -69,6 +81,27 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("Custom Search:");
                 Console.WriteLine("  -q=<TERM> | --query=<TERM>    Search for a wallpaper");
                 return;
+            }
+
+            IWallpaperSort sort;
+            var sortArg = args.FirstOrDefault(arg => arg.StartsWith("--top-"));
+            if(sortArg is null)
+            {
+                sort = new LatestSort();
+            }
+            else
+            {
+                sort = sortArg switch
+                {
+                    "--top-today" => new TopSort(TopSortRange.Day),
+                    "--top-3days" => new TopSort(TopSortRange.ThreeDays),
+                    "--top-week" => new TopSort(TopSortRange.Week),
+                    "--top-month" => new TopSort(TopSortRange.Month),
+                    "--top-3months" => new TopSort(TopSortRange.ThreeMonths),
+                    "--top-halfYear" => new TopSort(TopSortRange.HalfYear),
+                    "--top-year" => new TopSort(TopSortRange.Year),
+                    _ => new LatestSort()
+                };
             }
 
             if(args.Any(arg => arg == "--api"))
@@ -110,7 +143,8 @@ namespace ThemeMeUp.ConsoleApp
                 General = args.Any(arg => arg == "-g" || arg == "--general"),
                 Anime = args.Any(arg => arg == "-a" || arg == "--anime"),
                 People = args.Any(arg => arg == "-p" || arg == "--people"),
-                SearchTerm = searchQuery
+                SearchTerm = searchQuery,
+                Sort = sort
             });
         }
 
