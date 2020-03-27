@@ -9,11 +9,16 @@ namespace ThemeMeUp.ConsoleApp
 {
     public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
-        private readonly IWallpaperSetter _setter;
+        public static bool TrueRandom { get; set; }
+        public static bool NewOrRandom { get; set; }
 
-        public LatestWallpapersPresenter(IWallpaperSetter setter)
+        private readonly IWallpaperSetter _setter;
+        private readonly Random _rng;
+
+        public LatestWallpapersPresenter(IWallpaperSetter setter, Random rng)
         {
             _setter = setter;
+            _rng = rng;
         }
 
         public async void Default(IEnumerable<Wallpaper> wallpapers)
@@ -24,7 +29,14 @@ namespace ThemeMeUp.ConsoleApp
                 return;
             }
 
-            await _setter.SetFromUrlAsync(wallpapers.First().FullImageUrl);
+            string wallpaperUrl = wallpapers.First().FullImageUrl;
+
+            if(TrueRandom || (NewOrRandom && _setter.IsCached(wallpaperUrl)))
+            {
+                wallpaperUrl = wallpapers.RandomElement(_rng).FullImageUrl;
+            }
+
+            await _setter.SetFromUrlAsync(wallpaperUrl);
         }
 
         public void InvalidApiKey()

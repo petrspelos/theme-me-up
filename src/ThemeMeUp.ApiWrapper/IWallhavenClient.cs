@@ -7,7 +7,7 @@ namespace ThemeMeUp.ApiWrapper
 {
     public interface IWallhavenClient
     {
-        Task<IEnumerable<WallpaperResponse>> GetLatestWallpapersAsync(QueryOptions options);
+        Task<IEnumerable<WallpaperResponse>> GetLatestWallpapersAsync(QueryOptions options, bool randomPage);
         bool IsAuthenticated();
     }
 }

@@ -101,5 +101,11 @@ namespace ThemeMeUp.Infrastructure
         }
 
         private static void SetWallpaperWindows(string file) => SystemParametersInfo(0x0014, 0, file, 0x0001);
+
+        public bool IsCached(string url)
+        {
+            var filePath = Path.Combine(_wallpapersDirectoryPath, Path.GetFileName(url));
+            return File.Exists(filePath);
+        }
     }
 }

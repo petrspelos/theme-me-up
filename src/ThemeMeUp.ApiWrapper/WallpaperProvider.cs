@@ -31,7 +31,7 @@ namespace ThemeMeUp.ApiWrapper
 
             try
             {
-                return (await _client.GetLatestWallpapersAsync(queryOptions)).Select(ToWallpaper);
+                return (await _client.GetLatestWallpapersAsync(queryOptions, options.RandomPage)).Select(ToWallpaper);
             }
             catch (HttpRequestException e)
             {

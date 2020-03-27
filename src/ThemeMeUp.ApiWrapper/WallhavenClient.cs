@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,16 +14,31 @@ namespace ThemeMeUp.ApiWrapper
     {
         private readonly INetwork _network;
         private readonly IAuthentication _auth;
+        private readonly Random _rng;
 
-        public WallhavenClient(INetwork network, IAuthentication auth)
+        public WallhavenClient(INetwork network, IAuthentication auth, Random rng)
         {
             _network = network;
             _auth = auth;
+            _rng = rng;
         }
 
-        public async Task<IEnumerable<WallpaperResponse>> GetLatestWallpapersAsync(QueryOptions options)
+        public async Task<IEnumerable<WallpaperResponse>> GetLatestWallpapersAsync(QueryOptions options, bool randomPage)
         {
-            var url = $@"https://wallhaven.cc/api/v1/search?{options.ToQueryString()}";
+            var wallpapers = await GetWallpapersResponse(options);
+
+            if(randomPage)
+            {
+                var page = _rng.NextULong(1, wallpapers.Meta.LastPage + 1);
+                wallpapers = await GetWallpapersResponse(options, page);
+            }
+            
+            return wallpapers.Data;
+        }
+
+        private async Task<LatestWallpapersResponse> GetWallpapersResponse(QueryOptions options, ulong page = 1)
+        {
+            var url = $@"https://wallhaven.cc/api/v1/search?{options.ToQueryString()}&page={page}";
 
             string json;
             if(options.Purity.NSFW)
@@ -36,8 +52,7 @@ namespace ThemeMeUp.ApiWrapper
 
             AssertNotErrorResponse(json);
 
-            var latestWallpapers = JsonConvert.DeserializeObject<LatestWallpapersResponse>(json);
-            return latestWallpapers.Data;
+            return JsonConvert.DeserializeObject<LatestWallpapersResponse>(json);
         }
 
         public bool IsAuthenticated() => !string.IsNullOrWhiteSpace(_auth.GetApiKey());

@@ -30,7 +30,8 @@ namespace ThemeMeUp.Core.UseCases
                     General = input.General,
                     Anime = input.Anime,
                     People = input.People,
-                    Sort = input.Sort
+                    Sort = input.Sort,
+                    RandomPage = input.RandomPage
                 });
                 _output.Default(wallpapers);
             }

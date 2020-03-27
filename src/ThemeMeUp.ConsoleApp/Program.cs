@@ -29,6 +29,7 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<WallpaperSetter>().UseIfNone<WallpaperSetter>();
                 c.For<IWallpaperSetter>().UseIfNone<WallpaperSetter>();
                 c.For<Configuration>().UseIfNone<Configuration>();
+                c.For<Random>().UseIfNone<Random>();
             });
 
             if(args.Any(arg => arg == "--help" || arg == "-h")) {
@@ -60,7 +61,7 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("  -p | --people       Include People wallpapers");
                 Console.WriteLine(string.Empty);
                 Console.WriteLine("Sort Options:");
-                Console.WriteLine("  If no content option is provided,");
+                Console.WriteLine("  If no sort option is provided,");
                 Console.WriteLine("  newest wallpaper is picked.\n");
                 Console.WriteLine("  --top-today         Picks the most popular wallpaper today");
                 Console.WriteLine("  --top-3days         Picks the most popular wallpaper last 3 days");
@@ -69,6 +70,11 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("  --top-3months       Picks the most popular wallpaper last 3 months");
                 Console.WriteLine("  --top-halfYear      Picks the most popular wallpaper last 6 months");
                 Console.WriteLine("  --top-year          Picks the most popular wallpaper last year");
+                Console.WriteLine("Selection Method:");
+                Console.WriteLine("  If no selection option is provided,");
+                Console.WriteLine("  the first wallpaper is picked.\n");
+                Console.WriteLine("  --select-random         Picks a random wallpaper from result page");
+                Console.WriteLine("  --select-newOrRandom      Picks the first wallpaper, if not new, picks random");
                 Console.WriteLine(string.Empty);
                 Console.WriteLine("GNU/Linux wallpaper utilities:");
                 Console.WriteLine("  --feh          Sets the wallpaper using feh");
@@ -81,27 +87,6 @@ namespace ThemeMeUp.ConsoleApp
                 Console.WriteLine("Custom Search:");
                 Console.WriteLine("  -q=<TERM> | --query=<TERM>    Search for a wallpaper");
                 return;
-            }
-
-            IWallpaperSort sort;
-            var sortArg = args.FirstOrDefault(arg => arg.StartsWith("--top-"));
-            if(sortArg is null)
-            {
-                sort = new LatestSort();
-            }
-            else
-            {
-                sort = sortArg switch
-                {
-                    "--top-today" => new TopSort(TopSortRange.Day),
-                    "--top-3days" => new TopSort(TopSortRange.ThreeDays),
-                    "--top-week" => new TopSort(TopSortRange.Week),
-                    "--top-month" => new TopSort(TopSortRange.Month),
-                    "--top-3months" => new TopSort(TopSortRange.ThreeMonths),
-                    "--top-halfYear" => new TopSort(TopSortRange.HalfYear),
-                    "--top-year" => new TopSort(TopSortRange.Year),
-                    _ => new LatestSort()
-                };
             }
 
             if(args.Any(arg => arg == "--api"))
@@ -128,6 +113,30 @@ namespace ThemeMeUp.ConsoleApp
                 return;
             }
 
+            IWallpaperSort sort;
+            var sortArg = args.FirstOrDefault(arg => arg.StartsWith("--top-"));
+            if(sortArg is null)
+            {
+                sort = new LatestSort();
+            }
+            else
+            {
+                sort = sortArg switch
+                {
+                    "--top-today" => new TopSort(TopSortRange.Day),
+                    "--top-3days" => new TopSort(TopSortRange.ThreeDays),
+                    "--top-week" => new TopSort(TopSortRange.Week),
+                    "--top-month" => new TopSort(TopSortRange.Month),
+                    "--top-3months" => new TopSort(TopSortRange.ThreeMonths),
+                    "--top-halfYear" => new TopSort(TopSortRange.HalfYear),
+                    "--top-year" => new TopSort(TopSortRange.Year),
+                    _ => new LatestSort()
+                };
+            }
+
+            LatestWallpapersPresenter.TrueRandom = args.Any(arg => arg == "--select-random");
+            LatestWallpapersPresenter.NewOrRandom = args.Any(arg => arg == "--select-newOrRandom");
+
             var wallSetter = container.GetInstance<IWallpaperSetter>();
             wallSetter.ApplyArgs(args);
 
@@ -144,7 +153,8 @@ namespace ThemeMeUp.ConsoleApp
                 Anime = args.Any(arg => arg == "-a" || arg == "--anime"),
                 People = args.Any(arg => arg == "-p" || arg == "--people"),
                 SearchTerm = searchQuery,
-                Sort = sort
+                Sort = sort,
+                RandomPage = LatestWallpapersPresenter.TrueRandom || LatestWallpapersPresenter.NewOrRandom
             });
         }
 

@@ -12,5 +12,6 @@ namespace ThemeMeUp.Core.Entities
         public bool People { get; set; }
         public string SearchTerm { get; set; }
         public IWallpaperSort Sort { get; set; }
+        public bool RandomPage { get; set; }
     }
 }
