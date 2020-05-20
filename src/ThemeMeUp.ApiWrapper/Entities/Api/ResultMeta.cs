@@ -16,8 +16,8 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
         [JsonProperty("totla")]
         public ulong Total { get; set; }
 
-        [JsonProperty("query")]
-        public string Query { get; set; }
+        // [JsonProperty("query")]
+        // public string Query { get; set; }
 
         [JsonProperty("seed")]
         public string Seed { get; set; }
