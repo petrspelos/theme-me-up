@@ -111,7 +111,7 @@ namespace ThemeMeUp.Tests.UseCases
                 }
             };
 
-            _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>())).Returns(Task.FromResult(wallpapers));
+            _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>(), false)).Returns(Task.FromResult(wallpapers));
         }
 
         private void AssertNoOtherOutput() => _output.VerifyNoOtherCalls();
@@ -120,6 +120,6 @@ namespace ThemeMeUp.Tests.UseCases
             => _output.Verify(o => o.NoConnection(), Times.Once());
 
         private void SetNoConnection()
-            => _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>())).Throws<HttpRequestException>();
+            => _clientMock.Setup(c => c.GetLatestWallpapersAsync(It.IsAny<QueryOptions>(), false)).Throws<HttpRequestException>();
     }
 }

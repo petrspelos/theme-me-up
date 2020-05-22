@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using ThemeMeUp.ApiWrapper;
@@ -29,10 +30,10 @@ namespace ThemeMeUp.Avalonia
         private static void InitializeProvider()
             => _provider = new ServiceCollection()
                 .AddSingleton<HttpClient>()
+                .AddSingleton<Random>()
                 .AddSingleton<UrlImageConverter>()
                 .AddSingleton<WallpaperSetter>()
                 .AddSingleton<INetwork, Network>()
-                //.AddSingleton<INetwork, MockNetwork>()
                 .AddSingleton<IWallhavenClient, WallhavenClient>()
                 .AddSingleton<IWallpaperProvider, WallpaperProvider>()
                 .AddSingleton<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>()
