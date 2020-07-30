@@ -52,54 +52,6 @@ namespace ThemeMeUp.Avalonia.ViewModels
                 "Top (1 year)"
             };
             _selectedSort = _sorts.First();
-            _wallpapers = new List<WallpaperModel>
-            {
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                },
-                new WallpaperModel
-                {
-                    ThumbnailBitmap = new Bitmap(@"C:\Users\user\Pictures\thumb.png"),
-                    FullImageUrl = "https://w.wallhaven.cc/full/83/wallhaven-83zxmy.jpg"
-                }
-            };
         }
 
         public string SearchTerm
