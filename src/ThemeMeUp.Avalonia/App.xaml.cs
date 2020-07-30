@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Microsoft.Extensions.DependencyInjection;
+using DryIoc;
 using ThemeMeUp.Avalonia.ViewModels;
 using ThemeMeUp.Avalonia.Views;
 
@@ -20,7 +20,7 @@ namespace ThemeMeUp.Avalonia
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = ActivatorUtilities.CreateInstance(InversionOfControl.Provider, typeof(MainWindowViewModel))
+                    DataContext = InversionOfControl.Container.Resolve(typeof(MainWindowViewModel), IfUnresolved.Throw)
                 };
             }
 

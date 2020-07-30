@@ -4,7 +4,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Microsoft.Extensions.DependencyInjection;
+using DryIoc;
 using ThemeMeUp.Avalonia.ViewModels;
 
 namespace ThemeMeUp.Avalonia
@@ -20,8 +20,7 @@ namespace ThemeMeUp.Avalonia
 
             if (type != null)
             {
-                //return (Control)Activator.CreateInstance(type);
-                return (Control)ActivatorUtilities.CreateInstance(InversionOfControl.Provider, type);
+                return (Control)InversionOfControl.Container.Resolve(type, IfUnresolved.Throw);
             }
             else
             {

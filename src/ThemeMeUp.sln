@@ -1,19 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.ConsoleApp", "ThemeMeUp.ConsoleApp\ThemeMeUp.ConsoleApp.csproj", "{11E0DF36-B63D-4580-B77D-C2509978D7FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.ConsoleApp", "ThemeMeUp.ConsoleApp\ThemeMeUp.ConsoleApp.csproj", "{11E0DF36-B63D-4580-B77D-C2509978D7FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.Tests", "ThemeMeUp.Tests\ThemeMeUp.Tests.csproj", "{372133DA-F0F5-437C-8AA7-2691633B5CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.Tests", "ThemeMeUp.Tests\ThemeMeUp.Tests.csproj", "{372133DA-F0F5-437C-8AA7-2691633B5CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.ApiWrapper", "ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj", "{AC09DACC-B010-48DE-85AE-BD6773BA9A5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.ApiWrapper", "ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj", "{AC09DACC-B010-48DE-85AE-BD6773BA9A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.Infrastructure", "ThemeMeUp.Infrastructure\ThemeMeUp.Infrastructure.csproj", "{2643A963-A6E9-4E1D-9425-F15BF4267F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.Infrastructure", "ThemeMeUp.Infrastructure\ThemeMeUp.Infrastructure.csproj", "{2643A963-A6E9-4E1D-9425-F15BF4267F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.Core", "ThemeMeUp.Core\ThemeMeUp.Core.csproj", "{DEDF99E8-AE3F-4A0E-8879-DD4A3DDA2A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.Core", "ThemeMeUp.Core\ThemeMeUp.Core.csproj", "{DEDF99E8-AE3F-4A0E-8879-DD4A3DDA2A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeMeUp.Avalonia", "ThemeMeUp.Avalonia\ThemeMeUp.Avalonia.csproj", "{DB3B6950-DAF4-47A2-8CC4-D501FA22265C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeMeUp.Avalonia", "ThemeMeUp.Avalonia\ThemeMeUp.Avalonia.csproj", "{DB3B6950-DAF4-47A2-8CC4-D501FA22265C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{4C785FFF-7143-43FB-9B71-65788E1CA061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,9 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{11E0DF36-B63D-4580-B77D-C2509978D7FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,5 +99,15 @@ Global
 		{DB3B6950-DAF4-47A2-8CC4-D501FA22265C}.Release|x64.Build.0 = Release|Any CPU
 		{DB3B6950-DAF4-47A2-8CC4-D501FA22265C}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB3B6950-DAF4-47A2-8CC4-D501FA22265C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{11E0DF36-B63D-4580-B77D-C2509978D7FA} = {4C785FFF-7143-43FB-9B71-65788E1CA061}
+		{DB3B6950-DAF4-47A2-8CC4-D501FA22265C} = {4C785FFF-7143-43FB-9B71-65788E1CA061}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5CF8DDBA-5019-4F20-81D2-81329F189624}
 	EndGlobalSection
 EndGlobal
