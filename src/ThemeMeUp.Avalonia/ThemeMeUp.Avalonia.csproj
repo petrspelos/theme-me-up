@@ -14,11 +14,11 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.1" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.1" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.1" />
+    <PackageReference Include="Avalonia" Version="0.9.12" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
+    <PackageReference Include="DryIoc" Version="4.2.5" />
     <PackageReference Include="MessageBox.Avalonia" Version="0.9.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThemeMeUp.Core\ThemeMeUp.Core.csproj" />

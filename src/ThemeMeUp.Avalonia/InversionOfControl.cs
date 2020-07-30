@@ -1,6 +1,6 @@
+using DryIoc;
 using System;
 using System.Net.Http;
-using Microsoft.Extensions.DependencyInjection;
 using ThemeMeUp.ApiWrapper;
 using ThemeMeUp.Avalonia.Utilities;
 using ThemeMeUp.Core.Boundaries;
@@ -13,34 +13,33 @@ namespace ThemeMeUp.Avalonia
 {
     public static class InversionOfControl
     {
-        private static ServiceProvider _provider;
+        private static IContainer _container;
+        
+        public static IContainer Container => GetOrInitContainer();
 
-        public static ServiceProvider Provider => GetOrInitProvider();
-
-        private static ServiceProvider GetOrInitProvider()
+        private static IContainer GetOrInitContainer()
         {
-            if (_provider is null)
-            {
-                InitializeProvider();
-            }
+            if (_container is null)
+                InitializeContainer();
 
-            return _provider;
+            return _container;
         }
 
-        private static void InitializeProvider()
-            => _provider = new ServiceCollection()
-                .AddSingleton<HttpClient>()
-                .AddSingleton<Random>()
-                .AddSingleton<UrlImageConverter>()
-                .AddSingleton<WallpaperSetter>()
-                .AddSingleton<INetwork, Network>()
-                .AddSingleton<IWallhavenClient, WallhavenClient>()
-                .AddSingleton<IWallpaperProvider, WallpaperProvider>()
-                .AddSingleton<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>()
-                .AddSingleton<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>()
-                .AddSingleton<IAuthentication, JsonFileAuthentication>()
-                .AddSingleton<IWallpaperSetter, WallpaperSetter>()
-                .AddSingleton<Configuration, Configuration>()
-                .BuildServiceProvider();
+        private static void InitializeContainer()
+        {
+            _container = new Container(Rules.Default.WithAutoConcreteTypeResolution());
+            _container.Register<HttpClient>(Reuse.Singleton, FactoryMethod.ConstructorWithResolvableArguments);
+            _container.Register<Random>(Reuse.Singleton, FactoryMethod.ConstructorWithResolvableArguments);
+            _container.Register<UrlImageConverter>(Reuse.Transient);
+            _container.Register<WallpaperSetter>(Reuse.Transient);
+            _container.Register<INetwork, Network>(Reuse.Transient);
+            _container.Register<IWallhavenClient, WallhavenClient>(Reuse.Transient);
+            _container.Register<IWallpaperProvider, WallpaperProvider>(Reuse.Transient);
+            _container.Register<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>(Reuse.Transient);
+            _container.Register<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>(Reuse.Transient);
+            _container.Register<IAuthentication, JsonFileAuthentication>(Reuse.Transient);
+            _container.Register<IWallpaperSetter, WallpaperSetter>(Reuse.Transient);
+            _container.Register<Configuration, Configuration>(Reuse.Transient);
+        }
     }
 }
