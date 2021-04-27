@@ -5,12 +5,21 @@
 
     <StackLayout>
         <Frame BackgroundColor="#B32800" Padding="24" CornerRadius="0">
-            <Label Text="Theme Me Up" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            <Label Text="Theme Me Up" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" />
         </Frame>
         <Button Text="Execute UseCase" Clicked="Execute_Clicked" />
-        <Button Text="Print Presenter" Clicked="Resolve_Clicked" />
-        <Label x:Name="labelDebug" Text="..." FontSize="16" Padding="30,0,30,0"/>
+        <Label x:Name="labelDebug" Text="..." FontSize="16" Padding="30,0,30,0" />
         <Image x:Name="imageDebug" />
+        <CollectionView x:Name="collectionViewDebug">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="4" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding SmallThumbnailUrl}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 
 </ContentPage>

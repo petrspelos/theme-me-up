@@ -25,22 +25,12 @@ namespace ThemeMeUp.Mobile
         {
             labelDebug.Text = "Running UseCase...";
 
-            _useCase.Execute(new GetLatestWallpapersInput());
-        }
+            var task = Task.Run(async () => { await _useCase.Execute(new GetLatestWallpapersInput()); });
+            Task.WaitAll(task);
 
-        private void Resolve_Clicked(object sender, System.EventArgs e)
-        {
-            labelDebug.Text = "Resolving...";
+            collectionViewDebug.ItemsSource = _presenter.Wallpapers;
 
-            if (_presenter.Wallpapers.Any())
-            {
-                labelDebug.Text = $"The UseCase execution finished. Fetched {_presenter.Wallpapers.Count} wallpaper(s). - {_presenter.Wallpapers.First().SmallThumbnailUrl}";
-                imageDebug.Source = ImageSource.FromUri(new Uri(_presenter.Wallpapers.First().SmallThumbnailUrl));
-            }
-            else
-            {
-                labelDebug.Text = $"The UseCase execution finished. Fetched {_presenter.Wallpapers.Count} wallpaper(s).";
-            }
+            labelDebug.Text = "Finished.";
         }
     }
 }
