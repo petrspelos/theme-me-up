@@ -4,11 +4,13 @@
              x:Class="ThemeMeUp.Mobile.MainPage">
 
     <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        <Frame BackgroundColor="#B32800" Padding="24" CornerRadius="0">
+            <Label Text="Theme Me Up" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
-        <Label Text="Hello, World!" FontSize="Title" Padding="30,10,30,10"/>
+        <Button Text="Execute UseCase" Clicked="Execute_Clicked" />
+        <Button Text="Print Presenter" Clicked="Resolve_Clicked" />
         <Label x:Name="labelDebug" Text="..." FontSize="16" Padding="30,0,30,0"/>
+        <Image x:Name="imageDebug" />
     </StackLayout>
 
 </ContentPage>
