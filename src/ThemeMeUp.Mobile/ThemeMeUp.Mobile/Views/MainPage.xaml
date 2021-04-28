@@ -4,17 +4,36 @@
              x:Class="ThemeMeUp.Mobile.Views.MainPage"
              xmlns:viewModels="clr-namespace:ThemeMeUp.Mobile.ViewModels;assembly=ThemeMeUp.Mobile"
              xmlns:enteties="clr-namespace:ThemeMeUp.Core.Entities;assembly=ThemeMeUp.Core"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:DataType="viewModels:MainPageViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Title}" 
+             BackgroundColor="#f6fafd">
 
-    <StackLayout>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" IconImageSource="search.png"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="15,0">
         <CollectionView ItemsSource="{Binding Wallpapers}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="4" />
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="10"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="enteties:Wallpaper">
-                    <Image Source="{Binding SmallThumbnailUrl}" />
+                    <Grid Margin="50" Padding="5">
+                    <Frame CornerRadius="20" BackgroundColor="White" Padding="0" HasShadow="True">
+                            <Grid RowDefinitions="5*,65" RowSpacing="0">
+                                <ffimageloading:CachedImage Source="{Binding FullImageUrl}"
+                                                            BitmapOptimizations="True"
+                                                            Aspect="AspectFill"
+                                                            DownsampleToViewSize="True"/>
+                                <Grid Grid.Row="1" BackgroundColor="Red" Grid.ColumnDefinitions="*,*,*">
+                                    <Label>TEst</Label>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

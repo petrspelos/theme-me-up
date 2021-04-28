@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,6 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\eye.svg" />
+    <None Remove="Resources\Icons\heart.svg" />
+    <None Remove="Resources\Icons\search.svg" />
+    <None Remove="Resources\Icons\share.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Resizetizer.NT" Version="0.2.0" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -19,5 +29,18 @@
     <ProjectReference Include="..\..\ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj" />
     <ProjectReference Include="..\..\ThemeMeUp.Core\ThemeMeUp.Core.csproj" />
     <ProjectReference Include="..\..\ThemeMeUp.Infrastructure\ThemeMeUp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SharedImage Include="Resources\Icons\eye.svg" BaseSize="48,48"/>
+    <SharedImage Include="Resources\Icons\heart.svg" BaseSize="48,48"/>
+    <SharedImage Include="Resources\Icons\search.svg" BaseSize="48,48"/>
+    <SharedImage Include="Resources\Icons\share.svg" BaseSize="48,48"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\FilterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
