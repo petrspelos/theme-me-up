@@ -15,6 +15,7 @@
     <None Remove="Resources\Icons\heart.svg" />
     <None Remove="Resources\Icons\search.svg" />
     <None Remove="Resources\Icons\share.svg" />
+    <None Remove="Resources\Icons\test_test.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SharedImage Include="Resources\Icons\eye.svg" BaseSize="48,48"/>
-    <SharedImage Include="Resources\Icons\heart.svg" BaseSize="48,48"/>
-    <SharedImage Include="Resources\Icons\search.svg" BaseSize="48,48"/>
-    <SharedImage Include="Resources\Icons\share.svg" BaseSize="48,48"/>
+    <SharedImage Include="Resources\Icons\eye.svg" />
+    <SharedImage Include="Resources\Icons\heart.svg" />
+    <SharedImage Include="Resources\Icons\search.svg" />
+    <SharedImage Include="Resources\Icons\share.svg" />
   </ItemGroup>
 
   <ItemGroup>
