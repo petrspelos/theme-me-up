@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ThemeMeUp.Mobile.Annotations;
-using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
@@ -31,8 +30,18 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        #endregion
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
 
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 

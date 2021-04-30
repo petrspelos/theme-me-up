@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
@@ -12,6 +13,12 @@ namespace ThemeMeUp.Mobile.ViewModels
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpaperPresenter _presenter;
 
+        #region Commands
+
+        public IAsyncCommand RefreshCommand { get; }
+
+        #endregion
+
         public MainPageViewModel(IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter)
         {
             _useCase = useCase;
@@ -19,7 +26,25 @@ namespace ThemeMeUp.Mobile.ViewModels
 
             Title = "Theme Me Up";
 
+            RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
+
             Wallpapers = new ObservableCollection<Wallpaper>();
+        }
+
+        private async Task RefreshAsync()
+        {
+            try
+            {
+                IsRefreshing = true;
+
+                Wallpapers.Clear();
+                await GetLatestWallpapersAsync();
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
+           
         }
 
         public async Task GetLatestWallpapersAsync()
@@ -28,12 +53,10 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                var task = Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     await _useCase.Execute(new GetLatestWallpapersInput());
                 });
-
-                Task.WaitAll(task);
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);
@@ -42,6 +65,11 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private bool CanExecute(object arg)
+        {
+            return !IsBusy && !IsRefreshing;
         }
 
         #region Properties
