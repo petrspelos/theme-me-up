@@ -11,7 +11,7 @@
              BackgroundColor="#f6fafd">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Primary" IconImageSource="search.png"/>
+        <ToolbarItem Order="Primary" IconImageSource="search.png" Command="{Binding OpenFilterPageCommand}"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout>
@@ -53,6 +53,13 @@
                                                Grid.Row="1"
                                                Grid.Column="1"
                                                VerticalTextAlignment="Start"/>
+                                        <Image Source="bookmark.png"
+                                               HorizontalOptions="EndAndExpand"
+                                               Margin="0"
+                                               WidthRequest="35"
+                                               Grid.RowSpan="2"
+                                               Grid.Column="2"
+                                               xct:IconTintColorEffect.TintColor="#637a8d"/>
 
                                     </Grid>
                                     <ffimageloading:CachedImage Source="{Binding FullImageUrl}"

@@ -3,30 +3,34 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-
+        private readonly INavigationService _navigationService;
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpaperPresenter _presenter;
 
         #region Commands
 
         public IAsyncCommand RefreshCommand { get; }
+        public IAsyncCommand OpenFilterPageCommand {get;}
 
         #endregion
 
-        public MainPageViewModel(IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter)
+        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter)
         {
+            _navigationService = navigationService;
             _useCase = useCase;
             _presenter = presenter;
 
             Title = "Theme Me Up";
 
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
+            OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
         }
@@ -45,6 +49,19 @@ namespace ThemeMeUp.Mobile.ViewModels
                 IsRefreshing = false;
             }
            
+        }
+
+        private async Task OpenFilterPageAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                await _navigationService.OpenFilterPageAsync();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public async Task GetLatestWallpapersAsync()
@@ -89,8 +106,3 @@ namespace ThemeMeUp.Mobile.ViewModels
         #endregion
     }
 }
-
-/*
-   _presenter = new LatestWallpaperPresenter();
-            _useCase = UseCaseFactory.CreateGetLatestWallpapersUseCase(_presenter);
-*/

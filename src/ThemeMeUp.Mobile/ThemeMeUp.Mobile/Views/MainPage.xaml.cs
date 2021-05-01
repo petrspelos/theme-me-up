@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.UseCases;
+using ThemeMeUp.Mobile.Services.Implementations;
 using ThemeMeUp.Mobile.ViewModels;
 using Xamarin.Forms;
 
@@ -13,7 +14,7 @@ namespace ThemeMeUp.Mobile.Views
             var presenter = new LatestWallpaperPresenter();
             var useCase = UseCaseFactory.CreateGetLatestWallpapersUseCase(presenter);
 
-            BindingContext = new MainPageViewModel(useCase, presenter); 
+            BindingContext = new MainPageViewModel(new NavigationService(), useCase, presenter); 
 
             InitializeComponent();
         }

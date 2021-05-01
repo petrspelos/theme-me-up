@@ -1,12 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ThemeMeUp.Mobile.Views.FilterPage">
+             x:Class="ThemeMeUp.Mobile.Views.FilterPage"
+             xmlns:viewModels="clr-namespace:ThemeMeUp.Mobile.ViewModels;assembly=ThemeMeUp.Mobile"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="viewModels:FilterPageViewModel"
+             Title="{Binding Title}" 
+             BackgroundColor="#f6fafd">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="15" Spacing="15">
+            <Frame Padding="5,15">
+                <SearchBar  Placeholder="Search..."
+                            Text="{Binding SearchTerm}"/>
+            </Frame>
+            <Frame>
+                <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="40, 2*" ColumnSpacing="0">
+                    <Label Text="Categories" 
+                           FontSize="Subtitle"
+                           TextColor="Black"
+                           Grid.ColumnSpan="2"/>
+                    
+                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsGeneral}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="General" VerticalOptions="Center"/>
+                    
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsAnime}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="Anime" VerticalOptions="Center"/>
+                    
+                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsPeople}"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="People" VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
+            <Frame>
+                <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="40, 2*" ColumnSpacing="0">
+                    <Label Text="Purity" 
+                           FontSize="Subtitle"
+                           TextColor="Black"
+                           Grid.ColumnSpan="2"/>
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsSfw}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="SFW" VerticalOptions="Center"/>
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsSketchy}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="Sketchy" VerticalOptions="Center"/>
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsNsfw}"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="NSFW" VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
+            <Frame>
+                <Picker Title="Sorting"
+                    ItemsSource="{Binding SortingOptions}"
+                    ItemDisplayBinding="{Binding Title}"/>
+            </Frame>
+            <Button Text="Apply Filter"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

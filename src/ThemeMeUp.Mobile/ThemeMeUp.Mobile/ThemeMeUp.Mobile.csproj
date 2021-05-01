@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\bookmark.svg" />
     <None Remove="Resources\Icons\eye.svg" />
     <None Remove="Resources\Icons\heart.svg" />
     <None Remove="Resources\Icons\search.svg" />
@@ -34,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <SharedImage Include="Resources\Icons\bookmark.svg" />
     <SharedImage Include="Resources\Icons\eye.svg" />
     <SharedImage Include="Resources\Icons\heart.svg" />
     <SharedImage Include="Resources\Icons\search.svg" />
