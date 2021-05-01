@@ -71,16 +71,28 @@
                                         <StackLayout Grid.Column="0" Orientation="Horizontal">
                                             <Image Source="heart.png" 
                                                    xct:IconTintColorEffect.TintColor="#637a8d"/>
-                                            <Label Text="221 Favourites" 
-                                                   TextColor="#637a8d"
-                                                   VerticalTextAlignment="Center"/>
+                                            <StackLayout Orientation="Horizontal" Spacing="2">
+                                                <Label Text="{Binding Favorites}" 
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                                <Label Text="Favorites" 
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+                                            
                                         </StackLayout>
                                         <StackLayout Grid.Column="1" Orientation="Horizontal">
                                             <Image Source="eye.png"
                                                    xct:IconTintColorEffect.TintColor="#637a8d"/>
-                                            <Label Text="20001 Views"
-                                                   TextColor="#637a8d"
-                                                   VerticalTextAlignment="Center"/>
+                                            <StackLayout Orientation="Horizontal" Spacing="2">
+                                                <Label Text="{Binding Views}"
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                                <Label Text="Views"
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+                                            
                                         </StackLayout>
                                         <StackLayout Grid.Column="2" Orientation="Horizontal">
                                             <Image Source="share.png"
