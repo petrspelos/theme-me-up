@@ -1,7 +1,5 @@
-﻿using System;
-using ThemeMeUp.Mobile.Views;
+﻿using ThemeMeUp.Mobile.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace ThemeMeUp.Mobile
 {

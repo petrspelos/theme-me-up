@@ -21,13 +21,13 @@
                            TextColor="Black"
                            Grid.ColumnSpan="2"/>
                     
-                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsGeneral}"/>
+                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IncludeGeneral}"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="General" VerticalOptions="Center"/>
                     
-                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsAnime}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IncludeAnime}"/>
                     <Label Grid.Row="2" Grid.Column="1" Text="Anime" VerticalOptions="Center"/>
                     
-                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsPeople}"/>
+                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IncludePeople}"/>
                     <Label Grid.Row="3" Grid.Column="1" Text="People" VerticalOptions="Center"/>
                 </Grid>
             </Frame>
@@ -38,22 +38,21 @@
                            TextColor="Black"
                            Grid.ColumnSpan="2"/>
 
-                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IsSfw}"/>
+                    <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding IncludeSfw}"/>
                     <Label Grid.Row="1" Grid.Column="1" Text="SFW" VerticalOptions="Center"/>
 
-                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsSketchy}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding IncludeSketchy}"/>
                     <Label Grid.Row="2" Grid.Column="1" Text="Sketchy" VerticalOptions="Center"/>
 
-                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IsNsfw}"/>
+                    <CheckBox Grid.Row="3" Grid.Column="0" IsChecked="{Binding IncludeNsfw}"/>
                     <Label Grid.Row="3" Grid.Column="1" Text="NSFW" VerticalOptions="Center"/>
                 </Grid>
             </Frame>
             <Frame>
                 <Picker Title="Sorting"
-                    ItemsSource="{Binding SortingOptions}"
-                    ItemDisplayBinding="{Binding Title}"/>
+                    ItemsSource="{Binding SortItems}" SelectedItem="{Binding SelectedSort}"/>
             </Frame>
-            <Button Text="Apply Filter"/>
+            <Button Text="Apply Filter" Command="{Binding ApplyFilterCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

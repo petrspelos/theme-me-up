@@ -56,7 +56,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             try
             {
                 IsBusy = true;
-                await _navigationService.OpenFilterPageAsync();
+                await _navigationService.OpenFilterPageAsync(this);
             }
             finally
             {

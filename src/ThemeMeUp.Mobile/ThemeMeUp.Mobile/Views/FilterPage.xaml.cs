@@ -12,9 +12,12 @@ namespace ThemeMeUp.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FilterPage : ContentPage
     {
-        public FilterPage()
+        public FilterPage(MainPageViewModel vm)
         {
-            BindingContext = new FilterPageViewModel();
+            var presenter = new LatestWallpaperPresenter();
+            var useCase = UseCaseFactory.CreateGetLatestWallpapersUseCase(presenter);
+
+            BindingContext = new FilterPageViewModel(useCase, presenter, vm);
 
             InitializeComponent();
         }

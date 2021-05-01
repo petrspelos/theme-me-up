@@ -1,45 +1,104 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
+using ThemeMeUp.Core.Entities.Sorting;
 using ThemeMeUp.Mobile.Models;
+using ThemeMeUp.Mobile.Views;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
     public class FilterPageViewModel : BaseViewModel
     {
-        public FilterPageViewModel()
+        private readonly IGetLatestWallpapersUseCase _useCase;
+        private readonly LatestWallpaperPresenter _presenter;
+        private readonly MainPageViewModel _viewModel;
+
+        #region Commands
+
+        public IAsyncCommand ApplyFilterCommand { get; }
+
+        #endregion
+
+        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter, MainPageViewModel viewModel)
         {
+            _useCase = useCase;
+            _presenter = presenter;
+            _viewModel = viewModel;
+
             Title = "Filters";
 
-            SortingOptions = new ObservableCollection<WallpaperSortingOption>
+            ApplyFilterCommand = new AsyncCommand(ApplyFiltersAsync, CanExecute);
+
+            SortItems = new[]
             {
-                new WallpaperSortingOption
-                {
-                    Title = "Relevance"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Random"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Date Added"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Views"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Favorites"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Toplist"
-                },
-                new WallpaperSortingOption
-                {
-                    Title = "Hot"
-                },
+                "Latest",
+                "Top (1 day)",
+                "Top (3 days)",
+                "Top (1 week)",
+                "Top (1 month)",
+                "Top (3 months)",
+                "Top (6 months)",
+                "Top (1 year)"
             };
+            SelectedSort = SortItems.First();
+        }
+
+        private async Task ApplyFiltersAsync()
+        {
+            try
+            {
+                IsBusy = true;
+
+                await Task.Run(async () =>
+                {
+                    await _useCase.Execute(new GetLatestWallpapersInput
+                    {
+                        SearchTerm = SearchTerm,
+                        Sfw = IncludeSfw,
+                        Sketchy = IncludeSketchy,
+                        Nsfw = IncludeNsfw,
+                        General = IncludeGeneral,
+                        Anime = IncludeAnime,
+                        People = IncludePeople,
+                        Sort = SortFromString(_selectedSort)
+                    });
+                });
+
+                _viewModel.Wallpapers.Clear();
+
+                foreach (var wallpaper in _presenter.Wallpapers)
+                    _viewModel.Wallpapers.Add(wallpaper);
+
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private IWallpaperSort SortFromString(string val)
+        {
+            return val switch
+            {
+                "Top (1 day)" => new TopSort(TopSortRange.Day),
+                "Top (3 days)" => new TopSort(TopSortRange.ThreeDays),
+                "Top (1 week)" => new TopSort(TopSortRange.Week),
+                "Top (1 month)" => new TopSort(TopSortRange.Month),
+                "Top (3 months)" => new TopSort(TopSortRange.ThreeMonths),
+                "Top (6 months)" => new TopSort(TopSortRange.HalfYear),
+                "Top (1 year)" => new TopSort(TopSortRange.Year),
+                _ => new LatestSort()
+            };
+        }
+
+        private bool CanExecute(object arg)
+        {
+            return !IsBusy;
         }
 
         #region Properties
@@ -55,79 +114,91 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        private bool _isGeneral;
-        public bool IsGeneral
+        private bool _includeGeneral;
+        public bool IncludeGeneral
         {
-            get => _isGeneral;
+            get => _includeGeneral;
             set
             {
-                _isGeneral = value;
+                _includeGeneral = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isAnime;
-        public bool IsAnime
+        private bool _includeAnime;
+        public bool IncludeAnime
         {
-            get => _isAnime;
+            get => _includeAnime;
             set
             {
-                _isAnime = value;
+                _includeAnime = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isPeople;
-        public bool IsPeople
+        private bool _includePeople;
+        public bool IncludePeople
         {
-            get => _isPeople;
+            get => _includePeople;
             set
             {
-                _isPeople = value;
+                _includePeople = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isSfw;
-        public bool IsSfw
+        private bool _includeSfw;
+        public bool IncludeSfw
         {
-            get => _isSfw;
+            get => _includeSfw;
             set
             {
-                _isSfw = value;
+                _includeSfw = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isSketchy;
-        public bool IsSketchy
+        private bool _includeSketchy;
+        public bool IncludeSketchy
         {
-            get => _isSketchy;
+            get => _includeSketchy;
             set
             {
-                _isSketchy = value;
+                _includeSketchy = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isNsfw;
-        public bool IsNsfw
+        private bool _includeNsfw;
+        public bool IncludeNsfw
         {
-            get => _isNsfw;
+            get => _includeNsfw;
             set
             {
-                _isNsfw = value;
+                _includeNsfw = value;
                 OnPropertyChanged();
             }
         }
 
-        private ObservableCollection<WallpaperSortingOption> _sortingOptions;
-        public ObservableCollection<WallpaperSortingOption> SortingOptions
+        private IEnumerable<string> _sortItems;
+        public IEnumerable<string> SortItems
         {
-            get => _sortingOptions;
+            get => _sortItems;
             set
             {
-                _sortingOptions = value;
+                _sortItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _selectedSort;
+
+        public string SelectedSort
+        {
+            get => _selectedSort;
+            set
+            {
+                _selectedSort = value;
                 OnPropertyChanged();
             }
         }
