@@ -4,5 +4,7 @@ namespace ThemeMeUp.Core.Entities
     {
         public string FullImageUrl { get; set; }
         public string SmallThumbnailUrl { get; set; }
+        public ulong Favorites { get; set; }
+        public ulong Views { get; set; }
     }
 }
