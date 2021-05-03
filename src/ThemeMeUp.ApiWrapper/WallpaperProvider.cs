@@ -44,6 +44,7 @@ namespace ThemeMeUp.ApiWrapper
         {
             return new Wallpaper
             {
+                ShortUrl = response.ShortUrl,
                 FullImageUrl = response.Path,
                 SmallThumbnailUrl = response.Thumbs.Small,
                 Views = response.Views,

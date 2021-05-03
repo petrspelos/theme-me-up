@@ -5,6 +5,7 @@ using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
@@ -17,7 +18,8 @@ namespace ThemeMeUp.Mobile.ViewModels
         #region Commands
 
         public IAsyncCommand RefreshCommand { get; }
-        public IAsyncCommand OpenFilterPageCommand {get;}
+        public IAsyncCommand OpenFilterPageCommand { get; }
+        public IAsyncCommand<string> ShareWallpaperCommand { get; }
 
         #endregion
 
@@ -31,6 +33,7 @@ namespace ThemeMeUp.Mobile.ViewModels
 
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
             OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
+            ShareWallpaperCommand = new AsyncCommand<string>(OpenSharePromptAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
         }
@@ -48,7 +51,6 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsRefreshing = false;
             }
-           
         }
 
         private async Task OpenFilterPageAsync()
@@ -57,6 +59,24 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
                 await _navigationService.OpenFilterPageAsync(this);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task OpenSharePromptAsync(string wallpaperUrl)
+        {
+            try
+            {
+                IsBusy = true;
+
+                await Share.RequestAsync(new ShareTextRequest
+                {
+                    Uri = wallpaperUrl,
+                    Title = "Share Web Link"
+                });
             }
             finally
             {
