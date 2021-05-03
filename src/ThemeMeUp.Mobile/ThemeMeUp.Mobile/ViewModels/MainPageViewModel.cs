@@ -20,6 +20,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand OpenFilterPageCommand { get; }
         public IAsyncCommand<string> ShareWallpaperCommand { get; }
+        public IAsyncCommand OpenSettingsPageCommand { get; }
 
         #endregion
 
@@ -34,6 +35,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
             OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
             ShareWallpaperCommand = new AsyncCommand<string>(OpenSharePromptAsync, CanExecute);
+            OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
         }
@@ -75,8 +77,21 @@ namespace ThemeMeUp.Mobile.ViewModels
                 await Share.RequestAsync(new ShareTextRequest
                 {
                     Uri = wallpaperUrl,
-                    Title = "Share Web Link"
+                    Title = "Share Wallpaper"
                 });
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task OpenSettingsPageAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                await _navigationService.OpenSettingsPageAsync();
             }
             finally
             {
@@ -90,10 +105,8 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                await Task.Run(async () =>
-                {
-                    await _useCase.Execute(new GetLatestWallpapersInput());
-                });
+                await _useCase.Execute(new GetLatestWallpapersInput());
+            
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);

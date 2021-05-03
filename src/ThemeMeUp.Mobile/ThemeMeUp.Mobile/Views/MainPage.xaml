@@ -12,8 +12,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" IconImageSource="search.png" Command="{Binding OpenFilterPageCommand}"/>
-        <ToolbarItem Order="Secondary" Text="Settings"/>
-        <ToolbarItem Order="Secondary" Text="About"/>
+        <ToolbarItem Order="Secondary" Text="Settings" Command="{Binding OpenSettingsPageCommand}"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout>

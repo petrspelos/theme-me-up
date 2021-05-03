@@ -11,5 +11,10 @@ namespace ThemeMeUp.Mobile.Services.Implementations
         {
             await Application.Current.MainPage.Navigation.PushAsync(new FilterPage(vm));
         }
+
+        public async Task OpenSettingsPageAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new SettingsPage());
+        }
     }
 }
