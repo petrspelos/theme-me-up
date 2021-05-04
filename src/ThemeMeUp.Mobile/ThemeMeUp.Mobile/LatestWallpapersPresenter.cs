@@ -4,7 +4,7 @@ using ThemeMeUp.Core.Entities;
 
 namespace ThemeMeUp.Mobile
 {
-    public class LatestWallpaperPresenter : IGetLatestWallpapersOutputPort
+    public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
         public readonly ICollection<Wallpaper> Wallpapers = new List<Wallpaper>();
 

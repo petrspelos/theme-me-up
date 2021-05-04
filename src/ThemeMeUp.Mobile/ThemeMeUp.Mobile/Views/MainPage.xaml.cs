@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using DryIoc;
 using ThemeMeUp.Core.UseCases;
 using ThemeMeUp.Mobile.Services.Implementations;
 using ThemeMeUp.Mobile.ViewModels;
@@ -11,11 +12,7 @@ namespace ThemeMeUp.Mobile.Views
     {
         public MainPage()
         {
-            var presenter = new LatestWallpaperPresenter();
-            var useCase = UseCaseFactory.CreateGetLatestWallpapersUseCase(presenter);
-
-            BindingContext = new MainPageViewModel(new NavigationService(), useCase, presenter); 
-
+            BindingContext = InversionOfControl.Container.Resolve(typeof(MainPageViewModel), IfUnresolved.Throw);
             InitializeComponent();
         }
 

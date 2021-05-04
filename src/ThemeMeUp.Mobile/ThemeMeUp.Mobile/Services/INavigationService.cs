@@ -8,7 +8,7 @@ namespace ThemeMeUp.Mobile.Services
 {
     public interface INavigationService
     {
-        Task OpenFilterPageAsync(MainPageViewModel vm);
+        Task OpenFilterPageAsync();
         Task OpenSettingsPageAsync();
     }
 }

@@ -14,7 +14,7 @@ namespace ThemeMeUp.Mobile.ViewModels
     public class FilterPageViewModel : BaseViewModel
     {
         private readonly IGetLatestWallpapersUseCase _useCase;
-        private readonly LatestWallpaperPresenter _presenter;
+        private readonly LatestWallpapersPresenter _presenter;
         private readonly MainPageViewModel _viewModel;
 
         #region Commands
@@ -23,10 +23,10 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter, MainPageViewModel viewModel)
+        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, MainPageViewModel viewModel)
         {
             _useCase = useCase;
-            _presenter = presenter;
+            _presenter = (LatestWallpapersPresenter)presenter;
             _viewModel = viewModel;
 
             Title = "Filters";

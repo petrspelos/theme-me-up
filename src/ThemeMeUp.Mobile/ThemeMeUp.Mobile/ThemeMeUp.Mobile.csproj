@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DryIoc" Version="4.7.6" />
     <PackageReference Include="Resizetizer.NT" Version="0.2.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.1.0" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />

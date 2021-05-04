@@ -13,7 +13,7 @@ namespace ThemeMeUp.Mobile.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IGetLatestWallpapersUseCase _useCase;
-        private readonly LatestWallpaperPresenter _presenter;
+        private readonly LatestWallpapersPresenter _presenter;
 
         #region Commands
 
@@ -24,11 +24,11 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, LatestWallpaperPresenter presenter)
+        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter)
         {
             _navigationService = navigationService;
             _useCase = useCase;
-            _presenter = presenter;
+            _presenter = (LatestWallpapersPresenter)presenter;
 
             Title = "Theme Me Up";
 
@@ -60,7 +60,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             try
             {
                 IsBusy = true;
-                await _navigationService.OpenFilterPageAsync(this);
+                await _navigationService.OpenFilterPageAsync();
             }
             finally
             {
