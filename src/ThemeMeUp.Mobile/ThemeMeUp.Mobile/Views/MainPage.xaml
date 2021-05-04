@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ThemeMeUp.Mobile.Views.MainPage"
+             xmlns:viewModels="clr-namespace:ThemeMeUp.Mobile.ViewModels;assembly=ThemeMeUp.Mobile"
+             xmlns:enteties="clr-namespace:ThemeMeUp.Core.Entities;assembly=ThemeMeUp.Core"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="viewModels:MainPageViewModel"
+             Title="{Binding Title}" 
+             BackgroundColor="#f6fafd">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" IconImageSource="search.png" Command="{Binding OpenFilterPageCommand}"/>
+        <ToolbarItem Order="Secondary" Text="Settings" Command="{Binding OpenSettingsPageCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Wallpapers}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Label></Label>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="enteties:Wallpaper">
+                        <Grid Margin="50" Padding="15,5">
+                            <Frame CornerRadius="10" BackgroundColor="White" Padding="0" HasShadow="True">
+                                <Grid RowDefinitions="5*, 55" RowSpacing="0">
+                                    <ffimageloading:CachedImage Source="{Binding FullImageUrl}"
+                                                                Grid.Row="0"
+                                                                BitmapOptimizations="True"
+                                                                Aspect="AspectFill"
+                                                                DownsampleToViewSize="True"/>
+                                    <Grid Grid.Row="1" ColumnDefinitions="2*,2*,*" Padding="10">
+                                        <StackLayout Grid.Column="0" Orientation="Horizontal">
+                                            <Image Source="heart.png" 
+                                                   xct:IconTintColorEffect.TintColor="#637a8d"/>
+                                            <StackLayout Orientation="Horizontal" Spacing="2">
+                                                <Label Text="{Binding Favorites}" 
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                                <Label Text="Favorites" 
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                            <Image Source="eye.png"
+                                                   xct:IconTintColorEffect.TintColor="#637a8d"/>
+                                            <StackLayout Orientation="Horizontal" Spacing="2">
+                                                <Label Text="{Binding Views}"
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                                <Label Text="Views"
+                                                       TextColor="#637a8d"
+                                                       VerticalTextAlignment="Center"/>
+                                            </StackLayout>
+
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2" Orientation="Horizontal">
+                                            <ImageButton Source="share.png"
+                                                         BackgroundColor="Transparent"
+                                                         Command="{Binding ShareWallpaperCommand, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
+                                                         CommandParameter="{Binding ShortUrl}"
+                                                         xct:IconTintColorEffect.TintColor="#637a8d"
+                                                         HorizontalOptions="EndAndExpand"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <StackLayout>
+                        <Label Text="Click on a wallpaper to get more information"
+                               Padding="0,20,0,20"
+                               FontSize="Small"
+                               FontAttributes="Bold"
+                               TextColor="LightGray"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+
+</ContentPage>

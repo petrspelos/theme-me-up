@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,6 +12,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\bookmark.svg" />
+    <None Remove="Resources\Icons\eye.svg" />
+    <None Remove="Resources\Icons\heart.svg" />
+    <None Remove="Resources\Icons\search.svg" />
+    <None Remove="Resources\Icons\share.svg" />
+    <None Remove="Resources\Icons\test_test.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc" Version="4.7.6" />
+    <PackageReference Include="Resizetizer.NT" Version="0.2.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.1.0" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -19,5 +34,22 @@
     <ProjectReference Include="..\..\ThemeMeUp.ApiWrapper\ThemeMeUp.ApiWrapper.csproj" />
     <ProjectReference Include="..\..\ThemeMeUp.Core\ThemeMeUp.Core.csproj" />
     <ProjectReference Include="..\..\ThemeMeUp.Infrastructure\ThemeMeUp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SharedImage Include="Resources\Icons\bookmark.svg" />
+    <SharedImage Include="Resources\Icons\eye.svg" />
+    <SharedImage Include="Resources\Icons\heart.svg" />
+    <SharedImage Include="Resources\Icons\search.svg" />
+    <SharedImage Include="Resources\Icons\share.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\FilterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

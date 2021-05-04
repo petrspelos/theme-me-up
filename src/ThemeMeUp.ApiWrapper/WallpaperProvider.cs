@@ -44,10 +44,11 @@ namespace ThemeMeUp.ApiWrapper
         {
             return new Wallpaper
             {
+                ShortUrl = response.ShortUrl,
                 FullImageUrl = response.Path,
                 SmallThumbnailUrl = response.Thumbs.Small,
+                Views = response.Views,
                 Favorites = response.Favorites,
-                Views = response.Views
             };
         }
     }
