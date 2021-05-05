@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
+using ThemeMeUp.Core.Boundaries.Infrastructure;
 using ThemeMeUp.Core.Entities.Sorting;
-using ThemeMeUp.Mobile.Models;
-using ThemeMeUp.Mobile.Views;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -14,6 +12,7 @@ namespace ThemeMeUp.Mobile.ViewModels
     public class FilterPageViewModel : BaseViewModel
     {
         private readonly IGetLatestWallpapersUseCase _useCase;
+        private readonly IAuthentication _authentication;
         private readonly LatestWallpapersPresenter _presenter;
         private readonly MainPageViewModel _viewModel;
 
@@ -23,11 +22,12 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, MainPageViewModel viewModel)
+        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, MainPageViewModel viewModel, IAuthentication authentication)
         {
             _useCase = useCase;
             _presenter = (LatestWallpapersPresenter)presenter;
             _viewModel = viewModel;
+            _authentication = authentication;
 
             Title = "Filters";
 
@@ -53,21 +53,26 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                await Task.Run(async () =>
+                if (IncludeNsfw)
                 {
-                    await _useCase.Execute(new GetLatestWallpapersInput
+                    if (string.IsNullOrEmpty(_authentication.GetApiKey()))
                     {
-                        SearchTerm = SearchTerm,
-                        Sfw = IncludeSfw,
-                        Sketchy = IncludeSketchy,
-                        Nsfw = IncludeNsfw,
-                        General = IncludeGeneral,
-                        Anime = IncludeAnime,
-                        People = IncludePeople,
-                        Sort = SortFromString(_selectedSort)
-                    });
-                });
+                        await Application.Current.MainPage.DisplayAlert("No Token found", "You need an API key to search for NSFW wallpapers.", "Okay");
+                        IncludeNsfw = false;
+                    }
+                }
 
+                await _useCase.Execute(new GetLatestWallpapersInput
+                {
+                    SearchTerm = SearchTerm,
+                    Sfw = IncludeSfw,
+                    Sketchy = IncludeSketchy,
+                    Nsfw = IncludeNsfw,
+                    General = IncludeGeneral,
+                    Anime = IncludeAnime,
+                    People = IncludePeople,
+                    Sort = SortFromString(_selectedSort)
+                });
                 _viewModel.Wallpapers.Clear();
 
                 foreach (var wallpaper in _presenter.Wallpapers)

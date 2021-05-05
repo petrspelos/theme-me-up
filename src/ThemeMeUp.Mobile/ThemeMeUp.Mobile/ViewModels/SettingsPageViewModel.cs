@@ -11,7 +11,7 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #region Commands
 
-        public Command SetTokenCommand { get; }
+        public IAsyncCommand SetTokenCommand { get; }
 
         #endregion
 
@@ -21,12 +21,20 @@ namespace ThemeMeUp.Mobile.ViewModels
 
             Title = "Settings";
 
-            SetTokenCommand = new Command(SetToken, CanExecute);
+            SetTokenCommand = new AsyncCommand(SetToken, CanExecute);
         }
 
-        private void SetToken()
+        private async Task SetToken()
         {
+            if (string.IsNullOrWhiteSpace(Token))
+            {
+                await Application.Current.MainPage.DisplayAlert("No Token found", "Token cannot be empty.", "Okay");
+                return;
+            }
+
             _authentication.SetApiKey(Token);
+
+            await Application.Current.MainPage.DisplayAlert("Token added", "Your token was successfully added.", "Okay");
         }
 
         private bool CanExecute()
