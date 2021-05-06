@@ -7,6 +7,7 @@ using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
@@ -51,12 +52,24 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                await App.Current.MainPage.DisplayAlert("Setting a wallpaper", "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
+                if (IsSettingWallpaper)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Processing", "Wallpaper setting in process, please wait.", "OK");
+                    return;
+                }
+
+                IsSettingWallpaper = true;
+
+                await Application.Current.MainPage.DisplayAlert("Setting a wallpaper", "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
                 await Task.Run(() =>
                 {
                     _wallpaperSetter.SetFromUrlAsync(wallpaperUrl);
+                }).ContinueWith(t =>
+                {
+                    IsSettingWallpaper = false;
                 });
-                await App.Current.MainPage.DisplayAlert("Success", "Your wallpaper was set.", "OK");
+
+                await Application.Current.MainPage.DisplayAlert("Success", "Your wallpaper was set.", "OK");
             }
             finally
             {
@@ -130,7 +143,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 IsBusy = true;
 
                 await _useCase.Execute(new GetLatestWallpapersInput());
-            
+
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);
@@ -155,6 +168,17 @@ namespace ThemeMeUp.Mobile.ViewModels
             set
             {
                 _wallpapers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isSettingWallpaper;
+        public bool IsSettingWallpaper
+        {
+            get => _isSettingWallpaper;
+            set
+            {
+                _isSettingWallpaper = value;
                 OnPropertyChanged();
             }
         }
