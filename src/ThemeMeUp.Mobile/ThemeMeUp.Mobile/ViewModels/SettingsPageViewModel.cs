@@ -1,7 +1,60 @@
-﻿namespace ThemeMeUp.Mobile.ViewModels
+﻿using System.Threading.Tasks;
+using ThemeMeUp.Core.Boundaries.Infrastructure;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
+
+namespace ThemeMeUp.Mobile.ViewModels
 {
     public class SettingsPageViewModel : BaseViewModel
     {
-        
+        private readonly IAuthentication _authentication;
+
+        #region Commands
+
+        public IAsyncCommand SetTokenCommand { get; }
+
+        #endregion
+
+        public SettingsPageViewModel(IAuthentication authentication)
+        {
+            _authentication = authentication;
+
+            Title = "Settings";
+
+            SetTokenCommand = new AsyncCommand(SetToken, CanExecute);
+        }
+
+        private async Task SetToken()
+        {
+            if (string.IsNullOrWhiteSpace(Token))
+            {
+                await Application.Current.MainPage.DisplayAlert("No Token found", "Token cannot be empty.", "Okay");
+                return;
+            }
+
+            _authentication.SetApiKey(Token);
+
+            await Application.Current.MainPage.DisplayAlert("Token added", "Your token was successfully added.", "Okay");
+        }
+
+        private bool CanExecute()
+        {
+            return !IsBusy && !IsRefreshing;
+        }
+
+        #region Properties
+
+        private string _token;
+        public string Token
+        {
+            get => _token;
+            set
+            {
+                _token = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
     }
 }

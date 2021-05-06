@@ -125,7 +125,6 @@ namespace ThemeMeUp.Mobile.ViewModels
         #region Properties
 
         private ObservableCollection<Wallpaper> _wallpapers;
-
         public ObservableCollection<Wallpaper> Wallpapers
         {
             get => _wallpapers;
