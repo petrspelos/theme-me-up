@@ -70,6 +70,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidWallpaperSetter.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +100,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ThemeMeUp.Core\ThemeMeUp.Core.csproj">
+      <Project>{DEDF99E8-AE3F-4A0E-8879-DD4A3DDA2A16}</Project>
+      <Name>ThemeMeUp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThemeMeUp.Mobile\ThemeMeUp.Mobile.csproj">
       <Project>{25C77CC1-05AA-4292-9B6D-0BCE54C90DD5}</Project>
       <Name>ThemeMeUp.Mobile</Name>

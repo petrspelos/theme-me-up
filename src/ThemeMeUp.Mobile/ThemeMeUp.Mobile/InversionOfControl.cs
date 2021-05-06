@@ -15,10 +15,11 @@ namespace ThemeMeUp.Mobile
 {
     public class InversionOfControl
     {
-
         private static IContainer _container;
 
         public static IContainer Container => GetOrInitContainer();
+
+        public static IContainer InitialContainer { private get; set; }
 
         private static IContainer GetOrInitContainer()
         {
@@ -30,7 +31,7 @@ namespace ThemeMeUp.Mobile
 
         private static void InitializeContainer()
         {
-            _container = new Container(Rules.Default.WithAutoConcreteTypeResolution());
+            _container = InitialContainer;
             _container.Register<MainPageViewModel>(Reuse.Singleton, FactoryMethod.ConstructorWithResolvableArguments);
             _container.Register<HttpClient>(Reuse.Singleton, FactoryMethod.ConstructorWithResolvableArguments);
             _container.Register<Random>(Reuse.Singleton, FactoryMethod.ConstructorWithResolvableArguments);
@@ -41,10 +42,8 @@ namespace ThemeMeUp.Mobile
             _container.Register<IGetLatestWallpapersUseCase, GetLatestWallpapersUseCase>(Reuse.Transient);
             _container.Register<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>(Reuse.Singleton);
             _container.Register<IAuthentication, SecureStorageAuthenticationService>(Reuse.Transient);
-            _container.Register<IWallpaperSetter, WallpaperSetter>(Reuse.Transient);
             _container.Register<INavigationService, NavigationService>(Reuse.Transient);
             _container.Register<Configuration, Configuration>(Reuse.Transient);
-
         }
     }
 }

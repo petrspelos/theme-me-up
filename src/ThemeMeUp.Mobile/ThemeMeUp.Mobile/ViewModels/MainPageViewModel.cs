@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Mobile.Services;
@@ -14,30 +15,53 @@ namespace ThemeMeUp.Mobile.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpapersPresenter _presenter;
+        private readonly IWallpaperSetter _wallpaperSetter;
 
         #region Commands
 
         public IAsyncCommand RefreshCommand { get; }
         public IAsyncCommand OpenFilterPageCommand { get; }
         public IAsyncCommand<string> ShareWallpaperCommand { get; }
+        public IAsyncCommand<string> SetWallpaperCommand { get; }
         public IAsyncCommand OpenSettingsPageCommand { get; }
 
         #endregion
 
-        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter)
+        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, IWallpaperSetter wallpaperSetter)
         {
             _navigationService = navigationService;
             _useCase = useCase;
             _presenter = (LatestWallpapersPresenter)presenter;
+            _wallpaperSetter = wallpaperSetter;
 
             Title = "Theme Me Up";
 
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
             OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
             ShareWallpaperCommand = new AsyncCommand<string>(OpenSharePromptAsync, CanExecute);
+            SetWallpaperCommand = new AsyncCommand<string>(SetWallpaperAsync, CanExecute);
             OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
+        }
+
+        private async Task SetWallpaperAsync(string wallpaperUrl)
+        {
+            try
+            {
+                IsBusy = true;
+
+                await App.Current.MainPage.DisplayAlert("Setting a wallpaper", "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
+                await Task.Run(() =>
+                {
+                    _wallpaperSetter.SetFromUrlAsync(wallpaperUrl);
+                });
+                await App.Current.MainPage.DisplayAlert("Success", "Your wallpaper was set.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task RefreshAsync()

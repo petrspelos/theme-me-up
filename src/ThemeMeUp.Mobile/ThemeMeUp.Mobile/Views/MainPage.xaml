@@ -69,6 +69,12 @@
                                                          CommandParameter="{Binding ShortUrl}"
                                                          xct:IconTintColorEffect.TintColor="#637a8d"
                                                          HorizontalOptions="EndAndExpand"/>
+                                            <ImageButton Source="search.png"
+                                                         BackgroundColor="Transparent"
+                                                         Command="{Binding SetWallpaperCommand, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
+                                                         CommandParameter="{Binding FullImageUrl}"
+                                                         xct:IconTintColorEffect.TintColor="#637a8d"
+                                                         HorizontalOptions="EndAndExpand"/>
                                         </StackLayout>
                                     </Grid>
                                 </Grid>

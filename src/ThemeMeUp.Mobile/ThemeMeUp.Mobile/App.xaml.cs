@@ -1,13 +1,15 @@
-﻿using ThemeMeUp.Mobile.Views;
+﻿using DryIoc;
+using ThemeMeUp.Mobile.Views;
 using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile
 {
     public partial class App : Application
     {
-        public App()
+        public App(IContainer initialContainer)
         {
             InitializeComponent();
+            InversionOfControl.InitialContainer = initialContainer;
 
             MainPage = new NavigationPage(new MainPage());
         }

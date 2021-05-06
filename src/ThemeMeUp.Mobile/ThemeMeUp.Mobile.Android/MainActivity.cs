@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using DryIoc;
+using ThemeMeUp.Core.Boundaries;
 
 namespace ThemeMeUp.Mobile.Droid
 {
@@ -19,7 +21,10 @@ namespace ThemeMeUp.Mobile.Droid
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
-            LoadApplication(new App());
+            var container = new Container(Rules.Default.WithAutoConcreteTypeResolution());
+            container.Register<IWallpaperSetter, AndroidWallpaperSetter>(Reuse.Transient);
+
+            LoadApplication(new App(container));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
