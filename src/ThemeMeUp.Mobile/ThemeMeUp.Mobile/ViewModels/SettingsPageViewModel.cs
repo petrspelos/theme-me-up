@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
-using ThemeMeUp.Mobile.Models;
+using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile.ViewModels
@@ -10,6 +9,7 @@ namespace ThemeMeUp.Mobile.ViewModels
     public class SettingsPageViewModel : BaseViewModel
     {
         private readonly IAuthentication _authentication;
+        private readonly IUserSettingsService _settings;
 
         #region Commands
 
@@ -17,9 +17,10 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public SettingsPageViewModel(IAuthentication authentication)
+        public SettingsPageViewModel(IAuthentication authentication, IUserSettingsService settings)
         {
             _authentication = authentication;
+            _settings = settings;
 
             Title = "Settings";
             LoadSettings();
@@ -30,7 +31,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         private void LoadSettings()
         {
             Token = _authentication.GetApiKey();
-            LoadFullImageInPreview = Preferences.Get(SettingKeys.UseFullImagePreviewKey, true);
+            LoadFullImageInPreview = _settings.LoadFullImageInPreview;
         }
 
         private async Task SetToken()
@@ -70,8 +71,8 @@ namespace ThemeMeUp.Mobile.ViewModels
             get => _loadFullImageInPreview;
             set
             {
+                _settings.LoadFullImageInPreview = value;
                 _loadFullImageInPreview = value;
-                Preferences.Set(SettingKeys.UseFullImagePreviewKey, value);
                 OnPropertyChanged();
             }
         }
