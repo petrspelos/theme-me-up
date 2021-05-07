@@ -1,7 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
-using ThemeMeUp.Mobile.Models.Enums;
+using ThemeMeUp.Mobile.Models;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -31,7 +30,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         private void LoadSettings()
         {
             Token = _authentication.GetApiKey();
-            LoadFullImageInPreview = Preferences.Get(nameof(Settings.IsLoadFullImageInPreview), true);
+            LoadFullImageInPreview = Preferences.Get(SettingKeys.UseFullImagePreviewKey, true);
         }
 
         private async Task SetToken()
@@ -72,7 +71,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             set
             {
                 _loadFullImageInPreview = value;
-                Preferences.Set(nameof(Settings.IsLoadFullImageInPreview), value);
+                Preferences.Set(SettingKeys.UseFullImagePreviewKey, value);
                 OnPropertyChanged();
             }
         }

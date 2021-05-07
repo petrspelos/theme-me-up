@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
-using ThemeMeUp.Mobile.Models.Enums;
+using ThemeMeUp.Mobile.Models;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -50,7 +50,7 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         private void LoadSettings()
         {
-            LoadFullImageInPreviewSetting = Preferences.Get(nameof(Settings.IsLoadFullImageInPreview), true);
+            LoadFullImageInPreviewSetting = Preferences.Get(SettingKeys.UseFullImagePreviewKey, true);
         }
 
         private async Task SetWallpaperAsync(string wallpaperUrl)

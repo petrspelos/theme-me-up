@@ -31,6 +31,9 @@
                             <Frame CornerRadius="10" BackgroundColor="White" Padding="0" HasShadow="True">
                                 <Grid RowDefinitions="5*, 55" RowSpacing="0">
                                     <ffimageloading:CachedImage Source="{Binding FullImageUrl}"
+                                                                LoadingPlaceholder="{Binding SmallThumbnailUrl}"
+                                                                LoadingPriority="High"
+                                                                LoadingDelay="0"
                                                                 Grid.Row="0"
                                                                 BitmapOptimizations="True"
                                                                 Aspect="AspectFill"
