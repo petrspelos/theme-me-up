@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Mobile.Models.Enums;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -36,6 +37,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             _wallpaperSetter = wallpaperSetter;
 
             Title = "Theme Me Up";
+            LoadSettings();
 
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
             OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
@@ -44,6 +46,11 @@ namespace ThemeMeUp.Mobile.ViewModels
             OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
+        }
+
+        private void LoadSettings()
+        {
+            LoadFullImageInPreviewSetting = Preferences.Get(nameof(Settings.IsLoadFullImageInPreview), true);
         }
 
         private async Task SetWallpaperAsync(string wallpaperUrl)
@@ -179,6 +186,17 @@ namespace ThemeMeUp.Mobile.ViewModels
             set
             {
                 _isSettingWallpaper = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _loadFullImageInPreviewSetting;
+        public bool LoadFullImageInPreviewSetting
+        {
+            get => _loadFullImageInPreviewSetting;
+            set
+            {
+                _loadFullImageInPreviewSetting = value;
                 OnPropertyChanged();
             }
         }

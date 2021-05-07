@@ -34,7 +34,18 @@
                                                                 Grid.Row="0"
                                                                 BitmapOptimizations="True"
                                                                 Aspect="AspectFill"
-                                                                DownsampleToViewSize="True"/>
+                                                                DownsampleToViewSize="True">
+                                        <ffimageloading:CachedImage.Triggers>
+                                            <MultiTrigger TargetType="ffimageloading:CachedImage">
+                                                <MultiTrigger.Conditions>
+                                                    <BindingCondition Binding="{Binding LoadFullImageInPreviewSetting, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
+                                                                      Value="False"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Source" 
+                                                        Value="{Binding SmallThumbnailUrl}"/>
+                                            </MultiTrigger>
+                                        </ffimageloading:CachedImage.Triggers>
+                                    </ffimageloading:CachedImage>
                                     <Grid Grid.Row="1" ColumnDefinitions="2*,2*,*" Padding="10">
                                         <StackLayout Grid.Column="0" Orientation="Horizontal">
                                             <Image Source="heart.png" 
