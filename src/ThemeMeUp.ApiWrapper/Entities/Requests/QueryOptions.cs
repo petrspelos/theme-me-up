@@ -14,6 +14,8 @@ namespace ThemeMeUp.ApiWrapper.Entities.Requests
 
         public IWallpaperSort Sort { get; set; }
 
+        public ulong Page { get; set; }
+
         public QueryOptions(SearchOptions options)
         {
             Purity = new Purity
@@ -36,8 +38,9 @@ namespace ThemeMeUp.ApiWrapper.Entities.Requests
             };
 
             Sort = options.Sort;
+            Page = options.Page;
         }
 
-        public string ToQueryString() => $"{Purity.ToQueryParameter()}&{Category.ToQueryParameter()}&{FuzzySearch.ToQueryParameter()}&{Sort.ToQueryParameter()}";
+        public string ToQueryString() => $"{Purity.ToQueryParameter()}&{Category.ToQueryParameter()}&{FuzzySearch.ToQueryParameter()}&{Sort.ToQueryParameter()}&page={Page}";
     }
 }

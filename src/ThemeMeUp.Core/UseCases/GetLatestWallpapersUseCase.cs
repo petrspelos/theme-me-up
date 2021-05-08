@@ -21,7 +21,7 @@ namespace ThemeMeUp.Core.UseCases
         {
             try
             {
-                var wallpapers = await _wallpaperProvider.GetLatestAsync(new SearchOptions
+                var listing = await _wallpaperProvider.GetLatestAsync(new SearchOptions
                 {
                     Sfw = input.Sfw,
                     Sketchy = input.Sketchy,
@@ -31,9 +31,10 @@ namespace ThemeMeUp.Core.UseCases
                     Anime = input.Anime,
                     People = input.People,
                     Sort = input.Sort,
-                    RandomPage = input.RandomPage
+                    RandomPage = input.RandomPage,
+                    Page = input.Page
                 });
-                _output.Default(wallpapers);
+                _output.Default(listing);
             }
             catch (NoConnectionException)
             {

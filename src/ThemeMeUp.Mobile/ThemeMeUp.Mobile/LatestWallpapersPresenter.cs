@@ -8,11 +8,11 @@ namespace ThemeMeUp.Mobile
     {
         public readonly ICollection<Wallpaper> Wallpapers = new List<Wallpaper>();
 
-        public void Default(IEnumerable<Wallpaper> wallpapers)
+        public void Default(WallpaperListing listing)
         {
             Wallpapers.Clear();
 
-            foreach (var wallpaper in wallpapers)
+            foreach (var wallpaper in listing.Wallpapers)
                 Wallpapers.Add(wallpaper);
         }
 

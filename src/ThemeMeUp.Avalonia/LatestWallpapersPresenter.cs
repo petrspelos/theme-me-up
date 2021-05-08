@@ -11,15 +11,17 @@ namespace ThemeMeUp.Avalonia
         public bool noConnection = false;
         public bool noApiKey = false;
         public IEnumerable<Wallpaper> wallpapers;
+        public WallpaperListingMeta meta;
 
-        public void Default(IEnumerable<Wallpaper> wallpapers)
+        public void Default(WallpaperListing listing)
         {
-            if(!wallpapers.Any())
+            if(!listing.Wallpapers.Any())
             {
                 ShowSimpleMessage("No Results", "Wallhaven didn't find any wallpapers for your search.");
             }
 
-            this.wallpapers = wallpapers;
+            wallpapers = listing.Wallpapers;
+            meta = listing.Meta;
         }
 
         public void NoConnection()

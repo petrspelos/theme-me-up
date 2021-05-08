@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ThemeMeUp.ApiWrapper.Entities.Api;
 using ThemeMeUp.ApiWrapper.Entities.Requests;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Entities;
@@ -20,7 +17,7 @@ namespace ThemeMeUp.ApiWrapper
             _client = client;
         }
 
-        public async Task<IEnumerable<Wallpaper>> GetLatestAsync(SearchOptions options)
+        public async Task<WallpaperListing> GetLatestAsync(SearchOptions options)
         {
             if(options.Nsfw && !_client.IsAuthenticated())
             {
@@ -31,25 +28,13 @@ namespace ThemeMeUp.ApiWrapper
 
             try
             {
-                return (await _client.GetLatestWallpapersAsync(queryOptions, options.RandomPage)).Select(ToWallpaper);
+                return await _client.GetLatestWallpapersAsync(queryOptions, options.RandomPage);
             }
             catch (HttpRequestException e)
             {
                 Console.WriteLine(e);
                 throw new NoConnectionException();
             }
-        }
-
-        private Wallpaper ToWallpaper(WallpaperResponse response)
-        {
-            return new Wallpaper
-            {
-                ShortUrl = response.ShortUrl,
-                FullImageUrl = response.Path,
-                SmallThumbnailUrl = response.Thumbs.Small,
-                Views = response.Views,
-                Favorites = response.Favorites,
-            };
         }
     }
 }

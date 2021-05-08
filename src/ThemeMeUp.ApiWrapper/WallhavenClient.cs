@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ThemeMeUp.ApiWrapper.Entities.Api;
 using ThemeMeUp.ApiWrapper.Entities.Requests;
 using ThemeMeUp.ApiWrapper.Entities.Responses;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Core.Entities;
 using ThemeMeUp.Core.Entities.Exceptions;
 
 namespace ThemeMeUp.ApiWrapper
@@ -23,22 +25,42 @@ namespace ThemeMeUp.ApiWrapper
             _rng = rng;
         }
 
-        public async Task<IEnumerable<WallpaperResponse>> GetLatestWallpapersAsync(QueryOptions options, bool randomPage)
+        public async Task<WallpaperListing> GetLatestWallpapersAsync(QueryOptions options, bool randomPage)
         {
             var wallpapers = await GetWallpapersResponse(options);
 
             if(randomPage)
             {
-                var page = _rng.NextULong(1, wallpapers.Meta.LastPage + 1);
-                wallpapers = await GetWallpapersResponse(options, page);
+                options.Page = _rng.NextULong(1, wallpapers.Meta.LastPage + 1);
+                wallpapers = await GetWallpapersResponse(options);
             }
             
-            return wallpapers.Data;
+            return new WallpaperListing
+            {
+                Wallpapers = wallpapers.Data.Select(ToModel),
+                Meta = new WallpaperListingMeta
+                {
+                    CurrentPage = wallpapers.Meta.CurrentPage,
+                    TotalPages = wallpapers.Meta.LastPage
+                }
+            };
         }
 
-        private async Task<LatestWallpapersResponse> GetWallpapersResponse(QueryOptions options, ulong page = 1)
+        private Wallpaper ToModel(WallpaperResponse response)
         {
-            var url = $@"https://wallhaven.cc/api/v1/search?{options.ToQueryString()}&page={page}";
+            return new Wallpaper
+            {
+                ShortUrl = response.ShortUrl,
+                FullImageUrl = response.Path,
+                SmallThumbnailUrl = response.Thumbs.Small,
+                Views = response.Views,
+                Favorites = response.Favorites,
+            };
+        }
+
+        private async Task<LatestWallpapersResponse> GetWallpapersResponse(QueryOptions options)
+        {
+            var url = $@"https://wallhaven.cc/api/v1/search?{options.ToQueryString()}";
 
             string json;
             if(options.Purity.NSFW)

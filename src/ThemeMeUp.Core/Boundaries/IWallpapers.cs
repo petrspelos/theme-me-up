@@ -6,6 +6,6 @@ namespace ThemeMeUp.Core.Boundaries
 {
     public interface IWallpaperProvider
     {
-        Task<IEnumerable<Wallpaper>> GetLatestAsync(SearchOptions options);
+        Task<WallpaperListing> GetLatestAsync(SearchOptions options);
     }
 }

@@ -13,5 +13,6 @@ namespace ThemeMeUp.Core.Boundaries.GetLatestWallpapers
         public string SearchTerm { get; set; }
         public IWallpaperSort Sort { get; set; } = new LatestSort();
         public bool RandomPage { get; set; }
+        public ulong Page { get; set; } = 1;
     }
 }

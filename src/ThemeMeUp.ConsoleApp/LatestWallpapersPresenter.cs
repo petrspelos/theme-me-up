@@ -21,19 +21,19 @@ namespace ThemeMeUp.ConsoleApp
             _rng = rng;
         }
 
-        public async void Default(IEnumerable<Wallpaper> wallpapers)
+        public async void Default(WallpaperListing listing)
         {
-            if(!wallpapers.Any())
+            if(!listing.Wallpapers.Any())
             {
                 Console.WriteLine("There are no wallpapers for your search.");
                 return;
             }
 
-            string wallpaperUrl = wallpapers.First().FullImageUrl;
+            string wallpaperUrl = listing.Wallpapers.First().FullImageUrl;
 
             if(TrueRandom || (NewOrRandom && _setter.IsCached(wallpaperUrl)))
             {
-                wallpaperUrl = wallpapers.RandomElement(_rng).FullImageUrl;
+                wallpaperUrl = listing.Wallpapers.RandomElement(_rng).FullImageUrl;
             }
 
             await _setter.SetFromUrlAsync(wallpaperUrl);
