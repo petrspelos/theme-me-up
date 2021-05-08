@@ -13,7 +13,7 @@ namespace ThemeMeUp.ApiWrapper.Entities.Api
         [JsonProperty("per_page")]
         public ulong PerPage { get; set; }
 
-        [JsonProperty("totla")]
+        [JsonProperty("total")]
         public ulong Total { get; set; }
 
         // [JsonProperty("query")]
