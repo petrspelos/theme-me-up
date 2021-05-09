@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
 using ThemeMeUp.Core.Entities.Sorting;
+using ThemeMeUp.Mobile.Resx;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -29,22 +30,22 @@ namespace ThemeMeUp.Mobile.ViewModels
             _viewModel = viewModel;
             _authentication = authentication;
 
-            Title = "Filters";
+            Title = AppResources.FiltersLabel;
 
             ApplyFilterCommand = new AsyncCommand(ApplyFiltersAsync, CanExecute);
 
             SortItems = new[]
             {
-                "Latest",
-                "Top (1 day)",
-                "Top (3 days)",
-                "Top (1 week)",
-                "Top (1 month)",
-                "Top (3 months)",
-                "Top (6 months)",
-                "Top (1 year)"
+                AppResources.LatestLabel,
+                AppResources.TopOneDayLabel,
+                AppResources.TopThreeDayLabel,
+                AppResources.TopOneWeekLabel,
+                AppResources.TopOneMonthLabel,
+                AppResources.TopThreeMonthLabel,
+                AppResources.TopSixMonthLabel,
+                AppResources.TopOneYearLabel
             };
-            SelectedSort = SortItems.First();
+            SelectedSortIndex = 0;
         }
 
         private async Task ApplyFiltersAsync()
@@ -57,7 +58,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 {
                     if (string.IsNullOrEmpty(_authentication.GetApiKey()))
                     {
-                        await Application.Current.MainPage.DisplayAlert("No Token found", "You need an API key to search for NSFW wallpapers.", "Okay");
+                        await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, "You need an API key to search for NSFW wallpapers.", "OK");
                         IncludeNsfw = false;
                         return;
                     }
@@ -72,7 +73,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                     General = IncludeGeneral,
                     Anime = IncludeAnime,
                     People = IncludePeople,
-                    Sort = SortFromString(_selectedSort)
+                    Sort = SortFromString(SelectedSortIndex)
                 });
                 _viewModel.Wallpapers.Clear();
 
@@ -87,17 +88,17 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        private IWallpaperSort SortFromString(string val)
+        private IWallpaperSort SortFromString(int val)
         {
             return val switch
             {
-                "Top (1 day)" => new TopSort(TopSortRange.Day),
-                "Top (3 days)" => new TopSort(TopSortRange.ThreeDays),
-                "Top (1 week)" => new TopSort(TopSortRange.Week),
-                "Top (1 month)" => new TopSort(TopSortRange.Month),
-                "Top (3 months)" => new TopSort(TopSortRange.ThreeMonths),
-                "Top (6 months)" => new TopSort(TopSortRange.HalfYear),
-                "Top (1 year)" => new TopSort(TopSortRange.Year),
+                1 => new TopSort(TopSortRange.Day),
+                2 => new TopSort(TopSortRange.ThreeDays),
+                3 => new TopSort(TopSortRange.Week),
+                4 => new TopSort(TopSortRange.Month),
+                5 => new TopSort(TopSortRange.ThreeMonths),
+                6 => new TopSort(TopSortRange.HalfYear),
+                7 => new TopSort(TopSortRange.Year),
                 _ => new LatestSort()
             };
         }
@@ -197,14 +198,13 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        private string _selectedSort;
-
-        public string SelectedSort
+        private int _selectedSortIndex;
+        public int SelectedSortIndex
         {
-            get => _selectedSort;
+            get => _selectedSortIndex;
             set
             {
-                _selectedSort = value;
+                _selectedSortIndex = value;
                 OnPropertyChanged();
             }
         }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Mobile.Resx;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -64,13 +65,13 @@ namespace ThemeMeUp.Mobile.ViewModels
 
                 if (IsSettingWallpaper)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Processing", "Wallpaper setting in process, please wait.", "OK");
+                    await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, "Wallpaper setting in process, please wait.", "OK");
                     return;
                 }
 
                 IsSettingWallpaper = true;
 
-                await Application.Current.MainPage.DisplayAlert("Setting a wallpaper", "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
+                await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
                 await Task.Run(() =>
                 {
                     _wallpaperSetter.SetFromUrlAsync(wallpaperUrl);

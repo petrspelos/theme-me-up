@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ThemeMeUp.Mobile.Views.MainPage"
+             xmlns:resources="clr-namespace:ThemeMeUp.Mobile.Resx;assembly=ThemeMeUp.Mobile"
              xmlns:viewModels="clr-namespace:ThemeMeUp.Mobile.ViewModels;assembly=ThemeMeUp.Mobile"
              xmlns:enteties="clr-namespace:ThemeMeUp.Core.Entities;assembly=ThemeMeUp.Core"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -12,7 +13,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" IconImageSource="search.png" Command="{Binding OpenFilterPageCommand}"/>
-        <ToolbarItem Order="Secondary" Text="Settings" Command="{Binding OpenSettingsPageCommand}"/>
+        <ToolbarItem Order="Secondary" Text="{x:Static resources:AppResources.SettingsLabel}" Command="{Binding OpenSettingsPageCommand}"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout>
@@ -57,7 +58,7 @@
                                                 <Label Text="{Binding Favorites}" 
                                                        TextColor="#637a8d"
                                                        VerticalTextAlignment="Center"/>
-                                                <Label Text="Favorites" 
+                                                <Label Text="{x:Static resources:AppResources.FavoritesLabel}" 
                                                        TextColor="#637a8d"
                                                        VerticalTextAlignment="Center"/>
                                             </StackLayout>
@@ -70,7 +71,7 @@
                                                 <Label Text="{Binding Views}"
                                                        TextColor="#637a8d"
                                                        VerticalTextAlignment="Center"/>
-                                                <Label Text="Views"
+                                                <Label Text="{x:Static resources:AppResources.ViewsLabel}"
                                                        TextColor="#637a8d"
                                                        VerticalTextAlignment="Center"/>
                                             </StackLayout>
@@ -102,7 +103,7 @@
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>
                     <StackLayout>
-                        <Label Text="Click on a wallpaper to get more information"
+                        <Label Text="{x:Static resources:AppResources.MainPageFooterLabel}"
                                Padding="0,20,0,20"
                                FontSize="Small"
                                FontAttributes="Bold"

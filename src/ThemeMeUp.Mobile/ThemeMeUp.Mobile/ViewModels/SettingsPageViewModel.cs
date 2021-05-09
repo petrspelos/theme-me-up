@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Mobile.Resx;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -22,7 +23,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             _authentication = authentication;
             _settings = settings;
 
-            Title = "Settings";
+            Title = AppResources.SettingsLabel;
             LoadSettings();
 
             SetTokenCommand = new AsyncCommand(SetToken, CanExecute);
@@ -38,13 +39,13 @@ namespace ThemeMeUp.Mobile.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Token))
             {
-                await Application.Current.MainPage.DisplayAlert("No Token found", "Token cannot be empty.", "Okay");
+                await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, "Token cannot be empty.", "OK");
                 return;
             }
 
             _authentication.SetApiKey(Token);
 
-            await Application.Current.MainPage.DisplayAlert("Token added", "Your token was successfully added.", "Okay");
+            await Application.Current.MainPage.DisplayAlert(AppResources.TokenAddedLabel, "Your token was successfully added.", "OK");
         }
 
         private bool CanExecute()
