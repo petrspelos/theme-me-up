@@ -58,7 +58,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 {
                     if (string.IsNullOrEmpty(_authentication.GetApiKey()))
                     {
-                        await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, "You need an API key to search for NSFW wallpapers.", "OK");
+                        await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, AppResources.TokenNeedsToBeAddedLabel, AppResources.OkLabel);
                         IncludeNsfw = false;
                         return;
                     }

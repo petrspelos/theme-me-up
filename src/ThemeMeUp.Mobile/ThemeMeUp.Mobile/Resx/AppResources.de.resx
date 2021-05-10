@@ -153,6 +153,9 @@
   <data name="NsfwLabel" xml:space="preserve">
     <value>NSFW</value>
   </data>
+  <data name="OkLabel" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="PeopleLabel" xml:space="preserve">
     <value>Menschen</value>
   </data>
@@ -180,8 +183,20 @@
   <data name="SortingLabel" xml:space="preserve">
     <value>Sortieren nach</value>
   </data>
+  <data name="SuccessLabel" xml:space="preserve">
+    <value>Erfolgreich</value>
+  </data>
   <data name="TokenAddedLabel" xml:space="preserve">
     <value>Token hinzugefügt</value>
+  </data>
+  <data name="TokenCannotBeEmptyLabel" xml:space="preserve">
+    <value>Der Token kann nicht leer sein.</value>
+  </data>
+  <data name="TokenNeedsToBeAddedLabel" xml:space="preserve">
+    <value>Ein Token wird benötigt, um nach NSFW Hintergrundbildern zu suchen.</value>
+  </data>
+  <data name="TokenSuccessfullyAddedLabel" xml:space="preserve">
+    <value>Token erfolgreich hinzugefügt.</value>
   </data>
   <data name="TopOneDayLabel" xml:space="preserve">
     <value>Top (1 Tag)</value>
@@ -209,5 +224,14 @@
   </data>
   <data name="WallhavenSettingsLabel" xml:space="preserve">
     <value>Wallhaven Einstellungen</value>
+  </data>
+  <data name="WallpaperInstallationInfoLabel" xml:space="preserve">
+    <value>Sie werden benachrichtigt, sobald das Hintergrundbild installiert und ausgewählt wurde.</value>
+  </data>
+  <data name="WallpaperInstallationLabel" xml:space="preserve">
+    <value>Hintergrundbild Installation noch nicht abgeschlossen, bitte warten</value>
+  </data>
+  <data name="WallpaperSetLabel" xml:space="preserve">
+    <value>Das Hintergrundbild wurde gesetzt.</value>
   </data>
 </root>

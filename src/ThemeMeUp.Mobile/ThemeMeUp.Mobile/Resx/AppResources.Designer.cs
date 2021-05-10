@@ -169,6 +169,15 @@ namespace ThemeMeUp.Mobile.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string OkLabel {
+            get {
+                return ResourceManager.GetString("OkLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to People.
         /// </summary>
         public static string PeopleLabel {
@@ -250,11 +259,47 @@ namespace ThemeMeUp.Mobile.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        public static string SuccessLabel {
+            get {
+                return ResourceManager.GetString("SuccessLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Token added.
         /// </summary>
         public static string TokenAddedLabel {
             get {
                 return ResourceManager.GetString("TokenAddedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token cannot be empty..
+        /// </summary>
+        public static string TokenCannotBeEmptyLabel {
+            get {
+                return ResourceManager.GetString("TokenCannotBeEmptyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need an API key to search for NSFW wallpapers..
+        /// </summary>
+        public static string TokenNeedsToBeAddedLabel {
+            get {
+                return ResourceManager.GetString("TokenNeedsToBeAddedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your token was successfully added..
+        /// </summary>
+        public static string TokenSuccessfullyAddedLabel {
+            get {
+                return ResourceManager.GetString("TokenSuccessfullyAddedLabel", resourceCulture);
             }
         }
         
@@ -336,6 +381,33 @@ namespace ThemeMeUp.Mobile.Resx {
         public static string WallhavenSettingsLabel {
             get {
                 return ResourceManager.GetString("WallhavenSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We will let you know as soon as your wallpaper is downloaded and set..
+        /// </summary>
+        public static string WallpaperInstallationInfoLabel {
+            get {
+                return ResourceManager.GetString("WallpaperInstallationInfoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wallpaper installation in process, please wait..
+        /// </summary>
+        public static string WallpaperInstallationLabel {
+            get {
+                return ResourceManager.GetString("WallpaperInstallationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your wallpaper was set..
+        /// </summary>
+        public static string WallpaperSetLabel {
+            get {
+                return ResourceManager.GetString("WallpaperSetLabel", resourceCulture);
             }
         }
     }

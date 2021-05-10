@@ -65,13 +65,13 @@ namespace ThemeMeUp.Mobile.ViewModels
 
                 if (IsSettingWallpaper)
                 {
-                    await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, "Wallpaper setting in process, please wait.", "OK");
+                    await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, AppResources.WallpaperInstallationLabel, AppResources.OkLabel);
                     return;
                 }
 
                 IsSettingWallpaper = true;
 
-                await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
+                await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, AppResources.WallpaperInstallationInfoLabel, AppResources.OkLabel);
                 await Task.Run(() =>
                 {
                     _wallpaperSetter.SetFromUrlAsync(wallpaperUrl);
@@ -80,7 +80,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                     IsSettingWallpaper = false;
                 });
 
-                await Application.Current.MainPage.DisplayAlert("Success", "Your wallpaper was set.", "OK");
+                await Application.Current.MainPage.DisplayAlert(AppResources.SuccessLabel, AppResources.WallpaperSetLabel, AppResources.OkLabel);
             }
             finally
             {

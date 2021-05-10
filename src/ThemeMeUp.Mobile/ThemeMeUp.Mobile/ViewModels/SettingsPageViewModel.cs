@@ -39,13 +39,13 @@ namespace ThemeMeUp.Mobile.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Token))
             {
-                await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, "Token cannot be empty.", "OK");
+                await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, AppResources.TokenCannotBeEmptyLabel, AppResources.OkLabel);
                 return;
             }
 
             _authentication.SetApiKey(Token);
 
-            await Application.Current.MainPage.DisplayAlert(AppResources.TokenAddedLabel, "Your token was successfully added.", "OK");
+            await Application.Current.MainPage.DisplayAlert(AppResources.TokenAddedLabel, AppResources.TokenSuccessfullyAddedLabel, AppResources.OkLabel);
         }
 
         private bool CanExecute()
