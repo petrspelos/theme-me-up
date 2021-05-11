@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
+using ThemeMeUp.Mobile.Resx;
+using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -8,6 +10,7 @@ namespace ThemeMeUp.Mobile.ViewModels
     public class SettingsPageViewModel : BaseViewModel
     {
         private readonly IAuthentication _authentication;
+        private readonly IUserSettingsService _settings;
 
         #region Commands
 
@@ -15,26 +18,34 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public SettingsPageViewModel(IAuthentication authentication)
+        public SettingsPageViewModel(IAuthentication authentication, IUserSettingsService settings)
         {
             _authentication = authentication;
+            _settings = settings;
 
-            Title = "Settings";
+            Title = AppResources.SettingsLabel;
+            LoadSettings();
 
             SetTokenCommand = new AsyncCommand(SetToken, CanExecute);
+        }
+
+        private void LoadSettings()
+        {
+            Token = _authentication.GetApiKey();
+            LoadFullImageInPreview = _settings.LoadFullImageInPreview;
         }
 
         private async Task SetToken()
         {
             if (string.IsNullOrWhiteSpace(Token))
             {
-                await Application.Current.MainPage.DisplayAlert("No Token found", "Token cannot be empty.", "Okay");
+                await Application.Current.MainPage.DisplayAlert(AppResources.NoTokenFoundLabel, AppResources.TokenCannotBeEmptyLabel, AppResources.OkLabel);
                 return;
             }
 
             _authentication.SetApiKey(Token);
 
-            await Application.Current.MainPage.DisplayAlert("Token added", "Your token was successfully added.", "Okay");
+            await Application.Current.MainPage.DisplayAlert(AppResources.TokenAddedLabel, AppResources.TokenSuccessfullyAddedLabel, AppResources.OkLabel);
         }
 
         private bool CanExecute()
@@ -51,6 +62,18 @@ namespace ThemeMeUp.Mobile.ViewModels
             set
             {
                 _token = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _loadFullImageInPreview;
+        public bool LoadFullImageInPreview
+        {
+            get => _loadFullImageInPreview;
+            set
+            {
+                _settings.LoadFullImageInPreview = value;
+                _loadFullImageInPreview = value;
                 OnPropertyChanged();
             }
         }

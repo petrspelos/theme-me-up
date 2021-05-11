@@ -43,6 +43,7 @@ namespace ThemeMeUp.Mobile
             _container.Register<IGetLatestWallpapersOutputPort, LatestWallpapersPresenter>(Reuse.Singleton);
             _container.Register<IAuthentication, SecureStorageAuthenticationService>(Reuse.Transient);
             _container.Register<INavigationService, NavigationService>(Reuse.Transient);
+            _container.Register<IUserSettingsService, UserSettingsService>(Reuse.Transient);
             _container.Register<Configuration, Configuration>(Reuse.Transient);
         }
     }

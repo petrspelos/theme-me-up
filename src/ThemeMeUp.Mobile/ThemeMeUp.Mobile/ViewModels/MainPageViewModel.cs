@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
 using ThemeMeUp.Core.Entities;
+using ThemeMeUp.Mobile.Resx;
 using ThemeMeUp.Mobile.Services;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace ThemeMeUp.Mobile.ViewModels
 {
@@ -16,6 +18,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly LatestWallpapersPresenter _presenter;
         private readonly IWallpaperSetter _wallpaperSetter;
+        private readonly IUserSettingsService _settings;
 
         #region Commands
 
@@ -24,25 +27,34 @@ namespace ThemeMeUp.Mobile.ViewModels
         public IAsyncCommand<string> ShareWallpaperCommand { get; }
         public IAsyncCommand<string> SetWallpaperCommand { get; }
         public IAsyncCommand OpenSettingsPageCommand { get; }
+        public IAsyncCommand<Wallpaper> OpenWallpaperDetailPageCommand { get; }
 
         #endregion
 
-        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, IWallpaperSetter wallpaperSetter)
+        public MainPageViewModel(INavigationService navigationService, IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, IWallpaperSetter wallpaperSetter, IUserSettingsService settings)
         {
             _navigationService = navigationService;
             _useCase = useCase;
             _presenter = (LatestWallpapersPresenter)presenter;
             _wallpaperSetter = wallpaperSetter;
+            _settings = settings;
 
             Title = "Theme Me Up";
+            LoadSettings();
 
             RefreshCommand = new AsyncCommand(RefreshAsync, CanExecute);
             OpenFilterPageCommand = new AsyncCommand(OpenFilterPageAsync, CanExecute);
             ShareWallpaperCommand = new AsyncCommand<string>(OpenSharePromptAsync, CanExecute);
             SetWallpaperCommand = new AsyncCommand<string>(SetWallpaperAsync, CanExecute);
             OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
+            OpenWallpaperDetailPageCommand = new AsyncCommand<Wallpaper>(OpenWallpaperDetailPageAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
+        }
+
+        private void LoadSettings()
+        {
+            LoadFullImageInPreviewSetting = _settings.LoadFullImageInPreview;
         }
 
         private async Task SetWallpaperAsync(string wallpaperUrl)
@@ -51,12 +63,24 @@ namespace ThemeMeUp.Mobile.ViewModels
             {
                 IsBusy = true;
 
-                await App.Current.MainPage.DisplayAlert("Setting a wallpaper", "We will let you know as soon as your wallpaper is downloaded and set.", "OK");
+                if (IsSettingWallpaper)
+                {
+                    await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, AppResources.WallpaperInstallationLabel, AppResources.OkLabel);
+                    return;
+                }
+
+                IsSettingWallpaper = true;
+
+                await Application.Current.MainPage.DisplayAlert(AppResources.ProcessingLabel, AppResources.WallpaperInstallationInfoLabel, AppResources.OkLabel);
                 await Task.Run(() =>
                 {
                     _wallpaperSetter.SetFromUrlAsync(wallpaperUrl);
+                }).ContinueWith(t =>
+                {
+                    IsSettingWallpaper = false;
                 });
-                await App.Current.MainPage.DisplayAlert("Success", "Your wallpaper was set.", "OK");
+
+                await Application.Current.MainPage.DisplayAlert(AppResources.SuccessLabel, AppResources.WallpaperSetLabel, AppResources.OkLabel);
             }
             finally
             {
@@ -123,6 +147,19 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
+        private async Task OpenWallpaperDetailPageAsync(Wallpaper wallpaper)
+        {
+            try
+            {
+                IsBusy = true;
+                await _navigationService.OpenWallpaperDetailPageAsync(wallpaper);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         public async Task GetLatestWallpapersAsync()
         {
             try
@@ -130,7 +167,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 IsBusy = true;
 
                 await _useCase.Execute(new GetLatestWallpapersInput());
-            
+
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);
@@ -155,6 +192,28 @@ namespace ThemeMeUp.Mobile.ViewModels
             set
             {
                 _wallpapers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isSettingWallpaper;
+        public bool IsSettingWallpaper
+        {
+            get => _isSettingWallpaper;
+            set
+            {
+                _isSettingWallpaper = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _loadFullImageInPreviewSetting;
+        public bool LoadFullImageInPreviewSetting
+        {
+            get => _loadFullImageInPreviewSetting;
+            set
+            {
+                _loadFullImageInPreviewSetting = value;
                 OnPropertyChanged();
             }
         }
