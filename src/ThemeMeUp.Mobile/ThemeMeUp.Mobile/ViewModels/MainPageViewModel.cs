@@ -28,6 +28,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         public IAsyncCommand<string> SetWallpaperCommand { get; }
         public IAsyncCommand OpenSettingsPageCommand { get; }
         public IAsyncCommand<Wallpaper> OpenWallpaperDetailPageCommand { get; }
+        public IAsyncCommand LoadMoreWallpapersCommand { get; }
 
         #endregion
 
@@ -48,6 +49,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             SetWallpaperCommand = new AsyncCommand<string>(SetWallpaperAsync, CanExecute);
             OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
             OpenWallpaperDetailPageCommand = new AsyncCommand<Wallpaper>(OpenWallpaperDetailPageAsync, CanExecute);
+            LoadMoreWallpapersCommand = new AsyncCommand(LoadMoreWallpapersAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
         }
@@ -95,7 +97,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 IsRefreshing = true;
 
                 Wallpapers.Clear();
-                await GetLatestWallpapersAsync();
+                await LoadWallpapersAsync();
             }
             finally
             {
@@ -160,17 +162,39 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        public async Task GetLatestWallpapersAsync()
+        private const int PageSize = 24;
+        private int _currentFlightIndex = 0;
+
+        private async Task LoadMoreWallpapersAsync()
         {
             try
             {
                 IsBusy = true;
 
-                await _useCase.Execute(new GetLatestWallpapersInput());
+                var page = Wallpapers.Count / PageSize;
 
+
+                await _useCase.Execute(new GetLatestWallpapersInput { Page = (ulong)++page });
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);
+
+                _currentFlightIndex += PageSize;
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task LoadWallpapersAsync()
+        {
+            try
+            {
+                IsBusy = true;
+
+                await LoadMoreWallpapersAsync();
             }
             finally
             {

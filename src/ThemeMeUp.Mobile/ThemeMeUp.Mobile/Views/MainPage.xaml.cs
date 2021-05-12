@@ -21,7 +21,7 @@ namespace ThemeMeUp.Mobile.Views
             base.OnAppearing();
 
             if (BindingContext is MainPageViewModel vm && vm.Wallpapers.Count == 0)
-                vm.GetLatestWallpapersAsync()
+                vm.LoadWallpapersAsync()
                     .ContinueWith(t =>
                     {
                         if (t.IsFaulted) Debug.WriteLine(t.Exception?.Message);

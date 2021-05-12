@@ -18,7 +18,10 @@
 
     <StackLayout>
         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
-            <CollectionView ItemsSource="{Binding Wallpapers}">
+            <CollectionView 
+                ItemsSource="{Binding Wallpapers}"
+                RemainingItemsThreshold="10"
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreWallpapersCommand}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical"
                                        ItemSpacing="10"/>
