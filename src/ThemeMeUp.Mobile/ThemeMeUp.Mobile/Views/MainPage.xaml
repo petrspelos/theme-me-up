@@ -18,7 +18,10 @@
 
     <StackLayout>
         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
-            <CollectionView ItemsSource="{Binding Wallpapers}">
+            <CollectionView 
+                ItemsSource="{Binding Wallpapers}"
+                RemainingItemsThreshold="10"
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreWallpapersCommand}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical"
                                        ItemSpacing="10"/>
@@ -49,6 +52,10 @@
                                                         Value="{Binding SmallThumbnailUrl}"/>
                                             </MultiTrigger>
                                         </ffimageloading:CachedImage.Triggers>
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenWallpaperDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </ffimageloading:CachedImage.GestureRecognizers>
                                     </ffimageloading:CachedImage>
                                     <Grid Grid.Row="1" ColumnDefinitions="2*,2*,*" Padding="10">
                                         <StackLayout Grid.Column="0" Orientation="Horizontal">
@@ -93,10 +100,6 @@
                                         </StackLayout>
                                     </Grid>
                                 </Grid>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenWallpaperDetailPageCommand, Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}}"
-                                                          CommandParameter="{Binding .}"/>
-                                </Frame.GestureRecognizers>
                             </Frame>
                         </Grid>
                     </DataTemplate>

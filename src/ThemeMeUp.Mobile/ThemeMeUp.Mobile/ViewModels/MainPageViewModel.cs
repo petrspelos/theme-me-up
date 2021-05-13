@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
@@ -28,6 +29,7 @@ namespace ThemeMeUp.Mobile.ViewModels
         public IAsyncCommand<string> SetWallpaperCommand { get; }
         public IAsyncCommand OpenSettingsPageCommand { get; }
         public IAsyncCommand<Wallpaper> OpenWallpaperDetailPageCommand { get; }
+        public IAsyncCommand LoadMoreWallpapersCommand { get; }
 
         #endregion
 
@@ -48,6 +50,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             SetWallpaperCommand = new AsyncCommand<string>(SetWallpaperAsync, CanExecute);
             OpenSettingsPageCommand = new AsyncCommand(OpenSettingsPageAsync, CanExecute);
             OpenWallpaperDetailPageCommand = new AsyncCommand<Wallpaper>(OpenWallpaperDetailPageAsync, CanExecute);
+            LoadMoreWallpapersCommand = new AsyncCommand(LoadMoreWallpapersAsync, CanExecute);
 
             Wallpapers = new ObservableCollection<Wallpaper>();
         }
@@ -95,7 +98,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                 IsRefreshing = true;
 
                 Wallpapers.Clear();
-                await GetLatestWallpapersAsync();
+                await LoadWallpapersAsync();
             }
             finally
             {
@@ -160,17 +163,50 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        public async Task GetLatestWallpapersAsync()
+        private const int PageSize = 24;
+        private int _currentFlightIndex = 0;
+
+        private async Task LoadMoreWallpapersAsync()
         {
             try
             {
                 IsBusy = true;
 
-                await _useCase.Execute(new GetLatestWallpapersInput());
+                var page = Wallpapers.Count / PageSize;
 
+                var filters = new GetLatestWallpapersInput
+                {
+                    SearchTerm = WallpapersInput.SearchTerm,
+                    Sfw = WallpapersInput.Sfw,
+                    Sketchy = WallpapersInput.Sketchy,
+                    Nsfw = WallpapersInput.Nsfw,
+                    General = WallpapersInput.General,
+                    Anime = WallpapersInput.Anime,
+                    People = WallpapersInput.People,
+                    Sort = WallpapersInput.Sort,
+                    Page = (ulong)++page
+                };
+
+                await _useCase.Execute(filters);
 
                 foreach (var wallpaper in _presenter.Wallpapers)
                     Wallpapers.Add(wallpaper);
+
+                _currentFlightIndex += PageSize;
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task LoadWallpapersAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                await LoadMoreWallpapersAsync();
             }
             finally
             {
@@ -184,6 +220,8 @@ namespace ThemeMeUp.Mobile.ViewModels
         }
 
         #region Properties
+
+        public GetLatestWallpapersInput WallpapersInput = new GetLatestWallpapersInput();
 
         private ObservableCollection<Wallpaper> _wallpapers;
         public ObservableCollection<Wallpaper> Wallpapers
