@@ -12,9 +12,7 @@ namespace ThemeMeUp.Mobile.ViewModels
 {
     public class FilterPageViewModel : BaseViewModel
     {
-        private readonly IGetLatestWallpapersUseCase _useCase;
         private readonly IAuthentication _authentication;
-        private readonly LatestWallpapersPresenter _presenter;
         private readonly MainPageViewModel _viewModel;
 
         #region Commands
@@ -23,10 +21,8 @@ namespace ThemeMeUp.Mobile.ViewModels
 
         #endregion
 
-        public FilterPageViewModel(IGetLatestWallpapersUseCase useCase, IGetLatestWallpapersOutputPort presenter, MainPageViewModel viewModel, IAuthentication authentication)
+        public FilterPageViewModel(MainPageViewModel viewModel, IAuthentication authentication)
         {
-            _useCase = useCase;
-            _presenter = (LatestWallpapersPresenter)presenter;
             _viewModel = viewModel;
             _authentication = authentication;
 
@@ -64,7 +60,7 @@ namespace ThemeMeUp.Mobile.ViewModels
                     }
                 }
 
-                await _useCase.Execute(new GetLatestWallpapersInput
+                _viewModel.WallpapersInput = new GetLatestWallpapersInput
                 {
                     SearchTerm = SearchTerm,
                     Sfw = IncludeSfw,
@@ -73,14 +69,12 @@ namespace ThemeMeUp.Mobile.ViewModels
                     General = IncludeGeneral,
                     Anime = IncludeAnime,
                     People = IncludePeople,
-                    Sort = SortFromString(SelectedSortIndex)
-                });
-                _viewModel.Wallpapers.Clear();
-
-                foreach (var wallpaper in _presenter.Wallpapers)
-                    _viewModel.Wallpapers.Add(wallpaper);
+                    Sort = SortFromInt(SelectedSortIndex)
+                };
 
                 await Application.Current.MainPage.Navigation.PopAsync();
+
+                _viewModel.Wallpapers.Clear();
             }
             finally
             {
@@ -88,7 +82,7 @@ namespace ThemeMeUp.Mobile.ViewModels
             }
         }
 
-        private IWallpaperSort SortFromString(int val)
+        private IWallpaperSort SortFromInt(int val)
         {
             return val switch
             {
