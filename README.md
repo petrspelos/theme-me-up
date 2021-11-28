@@ -32,7 +32,7 @@ theme-me-up --query=id:338
 | ----------------- |:--------------|
 | `-h` or `--help`  | Displays help |
 | `--api`  | Displays API key help |
-| `--api-key=xxxxxxxxxxxx`  | Sets an API key |
+| `--key=xxxxxxxxxxxx`  | Sets an API key |
 
 ### Sensitivity
 
