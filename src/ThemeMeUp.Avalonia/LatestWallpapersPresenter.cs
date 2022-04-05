@@ -8,9 +8,9 @@ namespace ThemeMeUp.Avalonia
 {
     public class LatestWallpapersPresenter : IGetLatestWallpapersOutputPort
     {
-        public bool noConnection = false;
-        public bool noApiKey = false;
-        public IEnumerable<Wallpaper> wallpapers;
+        public bool HasNoConnection { get; private set; }
+        public bool HasNoApiKey { get; private set; }
+        public IEnumerable<Wallpaper> Wallpapers { get; private set; }
 
         public void Default(IEnumerable<Wallpaper> wallpapers)
         {
@@ -19,26 +19,26 @@ namespace ThemeMeUp.Avalonia
                 ShowSimpleMessage("No Results", "Wallhaven didn't find any wallpapers for your search.");
             }
 
-            this.wallpapers = wallpapers;
+            Wallpapers = wallpapers;
         }
 
         public void NoConnection()
         {
-            noConnection = true;
+            HasNoConnection = true;
             ShowSimpleMessage("No connection", "We cannot fetch new wallpapers because there seems to be no Internet connection.");
         }
 
         public void Unauthenticated()
         {
-            noApiKey = true;
+            HasNoApiKey = true;
             ShowSimpleMessage("No API Key", "You need an API key to search for NSFW wallpapers.");
         }
 
         public void Clear()
         {
-            noConnection = false;
-            noApiKey = false;
-            wallpapers = System.Array.Empty<Wallpaper>();
+            HasNoConnection = false;
+            HasNoApiKey = false;
+            Wallpapers = System.Array.Empty<Wallpaper>();
         }
 
         private void ShowSimpleMessage(string title, string content)

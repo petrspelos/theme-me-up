@@ -142,7 +142,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
                 Sort = SortFromString(_selectedSort)
             });
 
-            if (_output.noApiKey || _output.noConnection)
+            if (_output.HasNoApiKey || _output.HasNoConnection)
             {
                 FetchButtonEnabled = true;
                 return;
@@ -150,7 +150,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
             var result = new List<WallpaperModel>();
 
-            foreach (var wallpaper in _output.wallpapers)
+            foreach (var wallpaper in _output.Wallpapers)
             {
                 result.Add(await ToModel(wallpaper));
             }
