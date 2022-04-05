@@ -1,7 +1,4 @@
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using ThemeMeUp.Core.Boundaries.Infrastructure;
 
@@ -25,11 +22,11 @@ namespace ThemeMeUp.Infrastructure
 
         public async Task<string> GetStringWithApiKeyAsync(string url, string apiKey)
         {
-            if(!_client.DefaultRequestHeaders.Contains("X-API-Key"))
+            if (!_client.DefaultRequestHeaders.Contains("X-API-Key"))
             {
                 _client.DefaultRequestHeaders.Add("X-API-Key", apiKey);
             }
-            
+
             return await GetStringAsync(url);
         }
     }

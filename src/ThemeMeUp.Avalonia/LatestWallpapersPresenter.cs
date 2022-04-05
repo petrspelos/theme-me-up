@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MessageBox.Avalonia;
 using ThemeMeUp.Core.Boundaries.GetLatestWallpapers;
@@ -14,7 +14,7 @@ namespace ThemeMeUp.Avalonia
 
         public void Default(IEnumerable<Wallpaper> wallpapers)
         {
-            if(!wallpapers.Any())
+            if (!wallpapers.Any())
             {
                 ShowSimpleMessage("No Results", "Wallhaven didn't find any wallpapers for your search.");
             }
@@ -38,7 +38,7 @@ namespace ThemeMeUp.Avalonia
         {
             noConnection = false;
             noApiKey = false;
-            wallpapers = new Wallpaper[0];
+            wallpapers = System.Array.Empty<Wallpaper>();
         }
 
         private void ShowSimpleMessage(string title, string content)

@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -76,12 +75,12 @@ namespace ThemeMeUp.Tests.UseCases
 
         private bool SimpleWallpaperSet(IEnumerable<Wallpaper> arg)
         {
-            if(arg.Count() != 2) { return false; }
+            if (arg.Count() != 2) { return false; }
 
-            for(var i = 0; i < arg.Count(); i++)
+            for (var i = 0; i < arg.Count(); i++)
             {
                 var item = arg.ElementAt(i);
-                if(item.FullImageUrl != $"FULL WALLPAPER URL {i + 1}" || item.SmallThumbnailUrl != $"SMALL THUMBNAIL URL {i + 1}")
+                if (item.FullImageUrl != $"FULL WALLPAPER URL {i + 1}" || item.SmallThumbnailUrl != $"SMALL THUMBNAIL URL {i + 1}")
                 {
                     return false;
                 }

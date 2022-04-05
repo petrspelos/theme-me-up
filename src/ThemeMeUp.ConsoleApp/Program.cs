@@ -13,11 +13,11 @@ using ThemeMeUp.Core.Entities.Sorting;
 
 namespace ThemeMeUp.ConsoleApp
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            var container = new Container(c =>
+            using var container = new Container(c =>
             {
                 c.For<HttpClient>().UseIfNone<HttpClient>();
                 c.For<INetwork>().UseIfNone<Network>();
@@ -32,7 +32,8 @@ namespace ThemeMeUp.ConsoleApp
                 c.For<Random>().UseIfNone<Random>();
             });
 
-            if(args.Any(arg => arg == "--help" || arg == "-h")) {
+            if (args.Any(arg => arg == "--help" || arg == "-h"))
+            {
                 Console.WriteLine("Theme Me Up");
                 Console.WriteLine("Set a wallhaven.cc wallpaper from the comfort of your OS.\n");
                 Console.WriteLine("Usage:");
@@ -89,7 +90,7 @@ namespace ThemeMeUp.ConsoleApp
                 return;
             }
 
-            if(args.Any(arg => arg == "--api"))
+            if (args.Any(arg => arg == "--api"))
             {
                 Console.WriteLine("Theme Me Up");
                 Console.WriteLine("  API KEY HELP");
@@ -104,7 +105,7 @@ namespace ThemeMeUp.ConsoleApp
             }
 
             var keyArg = args.FirstOrDefault(arg => arg.StartsWith("--key="));
-            if(keyArg != null)
+            if (keyArg != null)
             {
                 var auth = container.GetInstance<IAuthentication>();
                 var key = keyArg.Substring(6);
@@ -115,7 +116,7 @@ namespace ThemeMeUp.ConsoleApp
 
             IWallpaperSort sort;
             var sortArg = args.FirstOrDefault(arg => arg.StartsWith("--top-"));
-            if(sortArg is null)
+            if (sortArg is null)
             {
                 sort = new LatestSort();
             }
@@ -160,9 +161,9 @@ namespace ThemeMeUp.ConsoleApp
 
         private static string GetQueryArgValue(string arg)
         {
-            if(arg is null) { return string.Empty; }
-            if(arg.StartsWith("--query=")) { return arg.Substring(8); }
-            if(arg.StartsWith("-q=")) { return arg.Substring(3); }
+            if (arg is null) { return string.Empty; }
+            if (arg.StartsWith("--query=")) { return arg.Substring(8); }
+            if (arg.StartsWith("-q=")) { return arg.Substring(3); }
             return string.Empty;
         }
     }

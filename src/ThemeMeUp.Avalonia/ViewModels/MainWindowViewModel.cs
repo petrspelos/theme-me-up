@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Media.Imaging;
 using ReactiveUI;
 using ThemeMeUp.Avalonia.Models;
 using ThemeMeUp.Avalonia.Utilities;
@@ -128,8 +125,8 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
         public async void OnGetWallpapers()
         {
-            Wallpapers = new WallpaperModel[0];
-            _output.Clear();            
+            Wallpapers = Array.Empty<WallpaperModel>();
+            _output.Clear();
 
             FetchButtonEnabled = false;
 
@@ -145,7 +142,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
                 Sort = SortFromString(_selectedSort)
             });
 
-            if(_output.noApiKey || _output.noConnection)
+            if (_output.noApiKey || _output.noConnection)
             {
                 FetchButtonEnabled = true;
                 return;
@@ -153,7 +150,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
             var result = new List<WallpaperModel>();
 
-            foreach(var wallpaper in _output.wallpapers)
+            foreach (var wallpaper in _output.wallpapers)
             {
                 result.Add(await ToModel(wallpaper));
             }
@@ -165,8 +162,8 @@ namespace ThemeMeUp.Avalonia.ViewModels
 
         public async void SetSelectedWallpaper()
         {
-            if(SelectedWallpaper is null) { return; }
-            
+            if (SelectedWallpaper is null) { return; }
+
             await _wallpaperSetter.SetFromUrlAsync(SelectedWallpaper.FullImageUrl);
         }
 
@@ -178,7 +175,7 @@ namespace ThemeMeUp.Avalonia.ViewModels
             };
 
             model.ThumbnailBitmap = await _imgConverter.UrlToBitmapAsync(w.SmallThumbnailUrl);
-            
+
             return model;
         }
 
